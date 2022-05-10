@@ -11,6 +11,10 @@ Current functionality:
 5. Split general specification in some independent .xlxs files in order by suppliers
 6. Filtefing displaying specification by suppliers
 
-
+Next improvements:
+1. Save and Load working state in files
+2. Managing suppliers list
+3. Managing alternate products list
+4. Setting up template for importing .xlxs files of differently formatted 
 
 

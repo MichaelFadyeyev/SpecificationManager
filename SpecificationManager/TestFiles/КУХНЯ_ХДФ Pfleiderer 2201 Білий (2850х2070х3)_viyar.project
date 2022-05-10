@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="windows-1251" ?><project currency="" version="1" costOperation="0" costMaterial="0" cost="0" date="" orderDate="" productFilter="false">
+<viyar version="23">
+<order delivery="" uuid="" />
+<creator id="Bazis2Viyar" version="5.3" bazisVersion="2152" />
+<constructor id="dsp" site="" />
+<materials>
+<material id="1" type="sheet" article="24538" name="ХДФ Pfleiderer 2201 Білий (2850х2070х3)" width="3000" height="3000" thickness="3" />
+</materials>
+<details>
+<detail id="1" material="1" barcode="" amount="1" width="1997.0" height="589.0" multiplicity="1" grain="1" description="01.00.08.ТИЛ" marker="0">
+<edges>
+<left type="" param="0" drop="0" />
+<top type="" param="0" drop="0" />
+<right type="" param="0" drop="0" />
+<bottom type="" param="0" drop="0" />
+</edges>
+</detail>
+<detail id="2" material="1" barcode="" amount="1" width="777.0" height="897.5" multiplicity="1" grain="1" description="02.00.04.ТИЛ" marker="0">
+<edges>
+<left type="" param="0" drop="0" />
+<top type="" param="0" drop="0" />
+<right type="" param="0" drop="0" />
+<bottom type="" param="0" drop="0" />
+</edges>
+</detail>
+<detail id="3" material="1" barcode="" amount="1" width="600.0" height="589.0" multiplicity="1" grain="1" description="04.00.06.ТИЛ" marker="0">
+<edges>
+<left type="" param="0" drop="0" />
+<top type="" param="0" drop="0" />
+<right type="" param="0" drop="0" />
+<bottom type="" param="0" drop="0" />
+</edges>
+</detail>
+<detail id="4" material="1" barcode="" amount="1" width="639.0" height="580.0" multiplicity="1" grain="1" description="07.00.05.ТИЛ" marker="0" decoratedSide="front">
+<edges>
+<left type="" param="0" drop="0" />
+<top type="" param="0" drop="0" />
+<right type="" param="0" drop="0" />
+<bottom type="" param="0" drop="0" />
+</edges>
+</detail>
+<detail id="5" material="1" barcode="" amount="1" width="639.0" height="580.0" multiplicity="1" grain="1" description="08.00.10.ТИЛ" marker="0" decoratedSide="front">
+<edges>
+<left type="" param="0" drop="0" />
+<top type="" param="0" drop="0" />
+<right type="" param="0" drop="0" />
+<bottom type="" param="0" drop="0" />
+</edges>
+</detail>
+</details>
+<products>
+<product id="1" article="20K5101" name="AVENTOS HK-XS кріплення корпусу під саморізи" amount="4" />
+<product id="2" article="20K4101" name="AVENTOS HK-XS кріплення фасаду для дерев’яного фасаду під саморізи" amount="4" />
+<product id="3" article="20K1501T" name="AVENTOS HK-XS силовий механізм, коеф.пот.=800-1600 TIP-ON" amount="4" />
+<product id="4" article="246.26.741" name="Фіксатор меблевий магнітний 2 кг пластик білий" amount="4" />
+<product id="5" article="955.1008D HPL-DR 250 NI" name="Відповідна планка для TIP-ON, для вдавлювання, L=10мм" amount="1" />
+<product id="6" article="18018" name="Врезной демпфер Bi-materiale Italiana Ferramenta d=5, 100шт" amount="18" />
+<product id="7" article="18038" name="Полкодержатель для деревянных полок K-LINE Italiana Ferramenta с горизонтальной фиксацией" amount="4" />
+<product id="8" article="23913" name="Петля Clip-On, накладная, с доводчиком, Muller для ДСП" amount="10" />
+<product id="9" article="38877" name="Шкант 8х30 мм" amount="73" />
+<product id="10" article="52559" name="Конфірмат 7х50 мм" amount="28" />
+<product id="11" article="52636" name="Полицетримач оцинкований 5x16 мм" amount="2" />
+<product id="12" article="59640" name="Навес регулируемый CAMAR 806 14 P2 VI с заглушкой Белый левый" amount="2" />
+<product id="13" article="59642" name="Навес регулируемый CAMAR 806 14 P2 VI с заглушкой Белый правый" amount="2" />
+<product id="14" article="59647" name="Заглушка для підвісу 806, біла, ліва CAMAR" amount="2" />
+<product id="15" article="59649" name="Заглушка для підвісу 806, біла, права CAMAR" amount="2" />
+<product id="16" article="59666" name="Заглушка для навески 818, белая (пластик) CAMAR" amount="2" />
+<product id="17" article="59692" name="Навісна планка 60х28 мм для підвісів CAMAR для серій 801, 804, 806, 818" amount="4" />
+<product id="18" article="79056" name="Саморізи оцинковані 4,0 х 30 мм цинк білий" amount="18" />
+<product id="19" article="94154" name="Механізм PushOpen Magnit mini білий Muller" amount="1" />
+<product id="20" article="99256" name="Універсальний комплект кріплень Ferro Fiori для профілів GOLA" amount="5" />
+<product id="21" article="110184" name="Блок живлення UltraSLIM, 12-24-IP20-2Y, метал. корпус" amount="2" />
+<product id="22" article="116013" name="Кліпса монтажна для профілю кутового, сталь, нікель NEW" amount="6" />
+<product id="23" article="во10/06.151" name="Кліпса для алюм. цоколя VOLPATO (пластик)" amount="2" />
+<product id="24" article="во10/06.171" name="Клипса для цоколя из ДСП (пластик)" amount="4" />
+<product id="25" article="во10/31.A100" name="Volpato Опора-ножка H=100мм (пластик), регул.+18-5мм" amount="12" />
+<product id="26" article="во40/86.0473.060" name="Піддон Алюм. 563х510мм з ущільнювачем" amount="1" />
+<product id="27" article="ин701/45ZG" name="Сушка 2-х рівнева 450/407х260х55мм, сіра" amount="1" />
+<product id="28" article="во10/05.0360" name="Volpato База 82,5х65мм (пластик) к опоре-ножке" amount="12" />
+</products>
+</viyar>
+</project>

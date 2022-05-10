@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<products type="screw_frn">
+		<product article="60837" name="Конфірмат 6,4х50 мм" code="M3 SP1"></product>
+		<product article="52559" name="Конфірмат 7х50 мм" code="M3 SP1"></product>
+		<product article="52560" name="Конфірмат 7х70 мм" code="M3 SP1"></product>
+	</products>
+	<!---->
+	<products type="rastex">
+		<product article="51760" name="Ексцентрикова стяжка Rastex 15/12 (20053) Hettich" code="M3 SP1"></product>
+		<product article="59042" name="Ексцентрикова стяжка Rastex 15/15 (9059487) Hettich" code="M3 SP1"></product>
+		<product article="61281" name="Ексцентрикова стяжка Rastex 15/18 (9056599) Hettich" code="M3 SP1"></product>
+		<product article="83199" name="Ексцентрикова стяжка Rastex 15/22 (1048254) Hettich" code="M3 SP1"></product>
+	</products>
+	<!---->
+	<products type="rafix">
+		<product article="263.10.405" name="RAFIX SE D20х14.2 мм бежевий" code="M3 SP4"></product>
+		<product article="263.10.205" name="RAFIX SE D20х14.2 мм сірий" code="M3 SP4"></product>
+		<product article="263.10.305" name="RAFIX SE D20х14.2 мм чорний" code="M3 SP4"></product>
+		<product article="263.10.705" name="RAFIX SE D20х14.2 мм білий" code="M3 SP4"></product>
+		<!---->
+		<product article="13015" name="Стяжка VB 35/18, цинк (9117725) Hettich" code="M3 SP1"></product>
+		<product article="84629" name="Стяжка VB 35/18, черная (79641) Hettich" code="M3 SP1"></product>
+		<product article="82759" name="Стяжка VB 35/18, коричневая (9116945) Hettich" code="M3 SP1"></product>
+		<product article="84628" name="Стяжка VB 35/18, белая (9116944) Hettich" code="M3 SP1"></product>
+	</products>
+</root>

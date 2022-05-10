@@ -1,0 +1,1 @@
+220510_SpecificationManager2

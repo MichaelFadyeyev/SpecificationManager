@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\SaveFileMode.cs" />
     <Compile Include="ProductOperationsForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -11,6 +11,7 @@ using Microsoft.Office.Interop.Excel;
 using SpecificationManager.Services;
 using SpecificationManager.Models;
 using SpecificationManager.Formatting;
+using System.Windows.Forms;
 
 
 namespace SpecificationManager.Operations
@@ -25,7 +26,7 @@ namespace SpecificationManager.Operations
         int row;
         readonly int range = WorksheetFormatter.ColumnsRead;
         readonly int headerHeight = WorksheetFormatter.HeaderRowHeight;
-        internal Specification ImportExcelData()
+        internal Specification Load()
         {
             Specification specification = new Specification();
             Excel.Application xlApp = new Excel.Application();
@@ -87,24 +88,22 @@ namespace SpecificationManager.Operations
             }
             return specification;
         }
-        internal bool ExportExcelData(Specification specification, List<string> chekedSuppliers)
+        internal bool SaveSeparated(Specification specification, List<string> chekedSuppliers)
         {
             //write separate specifications to *.xlsx
-            col = WorksheetFormatter.StartColumn;
-            row = WorksheetFormatter.StartRow;
             bool result = default;
 
             Excel.Application xlApp = new Excel.Application();
 
             try
             {
-                Workbook xlWorkbook = xlApp.Workbooks.Open(filePath);
-                Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-                Range xlRange = xlWorksheet.Cells[1, 1];
+                Workbook xlWorkbook;
+                Worksheet xlWorksheet;
+                Range xlRange;
 
                 foreach (var supplier in specification.Suppliers)
                 {
-                    if (supplier.Products.Count != 0 && chekedSuppliers.Any(sn=>sn == supplier.Name))
+                    if (supplier.Products.Count != 0 && chekedSuppliers.Any(sn => sn == supplier.Name))
                     {
                         string supplierName = supplier.Name;
                         xlWorkbook = xlApp.Workbooks.Add();
@@ -125,7 +124,7 @@ namespace SpecificationManager.Operations
                         }
 
                         // SET CELL FORMAT TO "TEXT" FOR "Article"
-                        xlWorksheet.Cells.Columns[2].NumberFormat = "@"; 
+                        xlWorksheet.Cells.Columns[2].NumberFormat = "@";
 
                         row = 2;
                         col = 0;
@@ -172,6 +171,91 @@ namespace SpecificationManager.Operations
             }
             return result;
         }
+
+        internal bool SaveSingle(Specification specification, List<string> chekedSuppliers)
+        {
+            //write single specification to *.xlsx
+            bool result = default;
+
+            Excel.Application xlApp = new Excel.Application();
+
+            try
+            {
+                Workbook xlWorkbook = xlApp.Workbooks.Add();
+                Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+                Range xlRange = xlWorksheet.Cells[1, 1];
+
+                //-> ФОРМУЄМО ХЕДЕР
+                xlRange.RowHeight = headerHeight;
+
+                for (col = 1; col <= range; col++)
+                {
+                    xlRange.Cells[1, col] = WorksheetFormatter.HeaderText[col - 1];
+                    xlRange = xlWorksheet.Columns[col];
+                    xlRange.ColumnWidth = WorksheetFormatter.ColumnWitdh[col - 1];
+                    xlRange.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                    xlRange.VerticalAlignment = XlVAlign.xlVAlignCenter;
+                    xlRange.WrapText = true;
+                    xlRange = xlWorksheet.Cells[1, 1];
+                }
+
+                // SET CELL FORMAT TO "TEXT" FOR "Article"
+                xlWorksheet.Cells.Columns[2].NumberFormat = "@";
+                //*
+
+                row = 2;
+                foreach (var supplier in specification.Suppliers)
+                {
+                    if (supplier.Products.Count != 0 && chekedSuppliers.Any(sn => sn == supplier.Name))
+                    {
+                        //string supplierName = supplier.Name;
+                        col = 0;
+
+                        foreach (var detail in supplier.Products)
+                        {
+                            xlRange.Cells[row, ++col] = row - 1;
+                            xlRange.Cells[row, ++col] = detail.Article;
+                            xlRange.Cells[row, ++col] = detail.Name;
+                            xlWorksheet.Cells[row, col].HorizontalAlignment = XlHAlign.xlHAlignLeft;
+                            xlRange.Cells[row, ++col] = detail.Quantity;
+                            xlRange.Cells[row, ++col] = detail.Units;
+                            row++;
+                            col = 0;
+                        }
+                    }
+                }
+                //-> ПЕРЕВІРИТИ ЧИ ПОТРІБНИЙ TRY
+                try
+                {
+                    xlWorkbook.SaveAs(
+                        Path.GetDirectoryName(filePath) + @"\" +
+                        specification.Article + "-" +
+                        "general" +
+                        ".xlsx");
+                    result = true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    ExcelCloseWorkbook(xlWorkbook, xlWorksheet, xlRange);
+                }
+                //*
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                xlApp.Quit();
+                Marshal.ReleaseComObject(xlApp);
+            }
+            return result;
+        }
+
         private static void ExcelCloseWorkbook(Workbook xlWorkbook, Worksheet xlWorksheet, Range xlRange)
         {
             //cleanup

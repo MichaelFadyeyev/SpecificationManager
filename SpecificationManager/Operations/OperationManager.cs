@@ -5,6 +5,7 @@ using System.Linq;
 using SpecificationManager.Models;
 using SpecificationManager.Models.Settings;
 using System.Collections.Generic;
+using SpecificationManager.Configuration;
 
 namespace SpecificationManager.Operations
 {
@@ -40,7 +41,7 @@ namespace SpecificationManager.Operations
         {
             stopwatch.Start();
 
-            specification = excelOperations.ImportExcelData();
+            specification = excelOperations.Load();
 
             stopwatch.Stop();
             TimeSpan = stopwatch.ElapsedMilliseconds.ToString();
@@ -49,11 +50,20 @@ namespace SpecificationManager.Operations
             return specification;
         }
 
-        public bool WriteExelFiles(List<string> chekedSuppliers)
+        public bool WriteExcel(List<string> chekedSuppliers, SaveFileMode mode)
         {
             try
             {
-                return excelOperations.ExportExcelData(specification, chekedSuppliers);
+                switch (mode)
+                {
+                    case SaveFileMode.SaveSingle:
+                        return excelOperations.SaveSingle(specification, chekedSuppliers);
+                    case SaveFileMode.SaveSeparated:
+                        return excelOperations.SaveSeparated(specification, chekedSuppliers);
+                    default:
+                        return false;
+                }
+
             }
             catch (Exception e)
             {
@@ -71,7 +81,7 @@ namespace SpecificationManager.Operations
             if (specification != null)
             {
                 stopwatch.Start();
-                Specification importedSpecification = excelOperations.ImportExcelData();
+                Specification importedSpecification = excelOperations.Load();
 
                 Product importedDetail;
                 Product detail;

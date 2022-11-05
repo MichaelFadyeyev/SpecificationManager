@@ -21,7 +21,7 @@ namespace SpecificationManager
         {
             InitializeComponent();
             om.GetLibrary();
-            TimeSpanFild.ForeColor = Color.Red;
+            timeSpanFild.ForeColor = Color.Red;
 
             for (int i = 0; i < DataGridFormatter.ColumnsNumber; i++)
             {
@@ -35,23 +35,26 @@ namespace SpecificationManager
         }
 
         #region Menu Events
-        void ImporExcelMenuItem_Click(object sender, EventArgs e)
+        private void saveSpecMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveSpec(SaveFileMode.SaveSingle);
+        }
+
+        void imporExcelMenuItem_Click(object sender, EventArgs e)
         {
             ImporExcel();
         }
-        void SlitAndSaveMenuItem_Click(object sender, EventArgs e)
+        void splitAndSaveMenuItem_Click(object sender, EventArgs e)
         {
-            SplitAndSave();
+            SaveSpec(SaveFileMode.SaveSeparated);
         }
-        void ExportToProjectMenuItem_Click(object sender, EventArgs e)
+        void exportToProjectMenuItem_Click(object sender, EventArgs e)
         {
             ExportToProject();
         }
         void mergeGeneralSpecMenu_Click(object sender, EventArgs e)
         {
             MergeGeneralSpec();
-
-
         }
         void editRastexMenu_Click(object sender, EventArgs e)
         {
@@ -65,7 +68,7 @@ namespace SpecificationManager
         {
             EditItems(sender as ToolStripItem);
         }
-        void SettingsBazisMenuItem_Click(object sender, EventArgs e)
+        void settingsBazisMenuItem_Click(object sender, EventArgs e)
         {
             ManualForm manualForm = new ManualForm();
             if (manualForm.ShowDialog() == DialogResult.OK)
@@ -73,7 +76,7 @@ namespace SpecificationManager
                 return;
             }
         }
-        void SetPathMenuItem_Click(object sender, EventArgs e)
+        void setPathMenuItem_Click(object sender, EventArgs e)
         {
             SetPathForm pathForm = new SetPathForm();
             pathForm.Path_ = Config.ReplaceProdListCurrentPath;
@@ -88,19 +91,19 @@ namespace SpecificationManager
         #endregion
 
         #region Buttons Events
-        void ImportExcelButton_Click(object sender, EventArgs e)
+        void importExcelButton_Click(object sender, EventArgs e)
         {
             ImporExcel();
         }
-        void SplitAndSaveButton_Click(object sender, EventArgs e)
+        void splitAndSaveButton_Click(object sender, EventArgs e)
         {
-            SplitAndSave();
+            SaveSpec(SaveFileMode.SaveSeparated);
         }
-        void ExportToProjectButton_Click(object sender, EventArgs e)
+        void exportToProjectButton_Click(object sender, EventArgs e)
         {
             ExportToProject();
         }
-        void MergeToProjectButton_Click(object sender, EventArgs e)
+        void mergeToProjectButton_Click(object sender, EventArgs e)
         {
             MergeGeneralSpec();
         }
@@ -112,7 +115,7 @@ namespace SpecificationManager
             try
             {
                 dataGrid.Rows.Clear();
-                TimeSpanFild.Clear();
+                timeSpanFild.Clear();
                 specification = om.LoadSpecification();
                 FillDataGrid();
 
@@ -122,7 +125,7 @@ namespace SpecificationManager
                 ShowExceptionMessage(exeption);
             }
         }
-        void SplitAndSave()
+        void SaveSpec(SaveFileMode mode)
         {
             if (dataGrid.Rows.Count == 0)
             {
@@ -132,7 +135,7 @@ namespace SpecificationManager
             }
             try
             {
-                if (om.WriteExelFiles(checkedSuppliers))
+                if (om.WriteExcel(checkedSuppliers, mode))
                 {
                     MessageBox.Show("Файли специфікацій успішно збережено", "Інформація",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -181,7 +184,7 @@ namespace SpecificationManager
                 specification = om.MergeSpecifications();
                 dataGrid.Rows.Clear();
                 FillDataGrid();
-                TimeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
+                timeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
             }
             catch (Exception exeption)
             {
@@ -254,7 +257,7 @@ namespace SpecificationManager
             }
             ContractNumberFild.Text = specification.Article;
             specificationIsLoaded = true;
-            TimeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
+            timeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
         }
         void FilterDataGrid()
         {
@@ -306,6 +309,7 @@ namespace SpecificationManager
         {
             MessageBox.Show(exeption.Message, "Увага!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
         #endregion
 
 

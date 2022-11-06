@@ -30,7 +30,7 @@ namespace SpecificationManager.Operations
             Excel.Application xlApp = new Excel.Application();
             try
             {
-                string[] files = FileDialogService.OpenFile("xls");
+                string[] files = FileDialogService.OpenFile("xls", true);
 
                 if (files != null)
                 {

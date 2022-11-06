@@ -12,7 +12,7 @@ namespace SpecificationManager.Services
 {
     public static class FileDialogService
     {
-        public static string[] OpenFile(string fileExtension)
+        public static string[] OpenFile(string fileExtension, bool mode)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             switch (fileExtension)
@@ -28,7 +28,7 @@ namespace SpecificationManager.Services
                     break;
             }
             openFileDialog.FilterIndex = 1;
-            openFileDialog.Multiselect = true;
+            openFileDialog.Multiselect = mode;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {

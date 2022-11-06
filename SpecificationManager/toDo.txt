@@ -12,11 +12,11 @@ openMenuItem
 saveMenuItem
 saveAsMenuItem
 
-impExcelMenuItem
-appendExcelMenu
-expSeparatedMenuItem
-expSingleMenuItem
-addToProjectMenuItem
++ impExcelMenuItem
++ appendExcelMenu
++ expSeparatedMenuItem
++ expSingleMenuItem
++ addToProjectMenuItem
 
 
 + перевірити чи сумується кількість у погонних позицій

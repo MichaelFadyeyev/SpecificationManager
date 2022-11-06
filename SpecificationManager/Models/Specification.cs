@@ -21,10 +21,6 @@ namespace SpecificationManager.Models
 
         public Product FindProduct(string supplierId, string article)
         {
-            //var supplier = Suppliers.FirstOrDefault(s => s.SupplierId == supplierId);
-            //if (supplier == null) return null;
-            //var product = supplier.Products.FirstOrDefault(s => s.Article == article);
-
             return Suppliers.FirstOrDefault(s => s.SupplierId == supplierId)
                 .Products.FirstOrDefault(s => s.Article == article);
         }

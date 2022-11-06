@@ -24,13 +24,12 @@ namespace SpecificationManager.Operations
         int col;
         int row;
         readonly int headerHeight = WorksheetFormatter.HeaderRowHeight;
-        internal Specification Import()
+        internal Specification Import(Specification s)
         {
-            Specification specification = new Specification();
+            Specification specification = s ?? new Specification();
             Excel.Application xlApp = new Excel.Application();
             try
             {
-                //filePath = FileDialogService.OpenFile("xls")[0];
                 string[] files = FileDialogService.OpenFile("xls");
 
                 if (files != null)
@@ -71,7 +70,6 @@ namespace SpecificationManager.Operations
                                     var existProduct = specification.FindProduct(currentId, newProduct.Article);
                                     if (existProduct != null)
                                     {
-                                        //existProduct.Quantity += newProduct.Quantity;
                                         specification.SumProducts(existProduct, newProduct);
                                     }
                                     else
@@ -80,15 +78,6 @@ namespace SpecificationManager.Operations
                                         .Single(sid => sid.SupplierId == currentId)
                                         .Products.Add(newProduct);
                                     }
-
-                                    //specification.Suppliers
-                                    //    .Single(sid => sid.SupplierId == currentId)
-                                    //    .Products.Add(new Product(
-                                    //        xlRange.Cells[row, col].Value2.ToString(),
-                                    //        xlRange.Cells[row, col + 1].Value2.ToString(),
-                                    //        xlRange.Cells[row, col + 2].Value2.ToString(),
-                                    //        xlRange.Cells[row, col + 3].Value2.ToString(),
-                                    //        xlRange.Cells[row, col + 4].Value2.ToString()));
                                 }
                                 row++;
                             }

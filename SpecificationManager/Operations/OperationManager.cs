@@ -41,7 +41,7 @@ namespace SpecificationManager.Operations
         {
             stopwatch.Start();
 
-            specification = excelOperations.Import();
+            specification = excelOperations.Import(null);
 
             stopwatch.Stop();
             TimeSpan = stopwatch.ElapsedMilliseconds.ToString();
@@ -81,41 +81,12 @@ namespace SpecificationManager.Operations
             if (specification != null)
             {
                 stopwatch.Start();
-                Specification importedSpecification = excelOperations.Import();
-
-                Product importedDetail;
-                Product detail;
-
-                for (int i = 0; i < SuppliersSetting.Naming.Count; i++)
-                {
-                    for (int j = 0; j < importedSpecification.Suppliers[i].Products.Count; j++)
-                    {
-                        bool operationKey = true;
-                        importedDetail = importedSpecification.Suppliers[i].Products[j];
-
-                        for (int k = 0; k < specification.Suppliers[i].Products.Count; k++)
-                        {
-                            detail = specification.Suppliers[i].Products[k];
-
-                            if (importedDetail.Article == detail.Article)
-                            {
-                                detail.Quantity =
-                                    ParseSum(importedDetail.Quantity, detail.Quantity);
-                                operationKey = false;
-                            }
-                        }
-                        if (operationKey)
-                        {
-                            specification.Suppliers[i].Products.Add(importedDetail);
-                        }
-                    }
-                }
-
+                var result = excelOperations.Import(specification);
                 stopwatch.Stop();
                 TimeSpan = stopwatch.ElapsedMilliseconds.ToString();
                 stopwatch.Reset();
 
-                return specification;
+                return result;
             }
             else
             {

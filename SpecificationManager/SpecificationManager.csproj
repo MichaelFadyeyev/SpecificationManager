@@ -94,7 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Configuration\SaveFileMode.cs" />
+    <Compile Include="Configuration\ExportExcelMode.cs" />
     <Compile Include="ProductOperationsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\replaceprodlist_.xml" />
+    <Content Include="toDo.txt" />
     <None Include="Images\favicon2.ico" />
     <Content Include="Images\Manual\settings_bazis_1.png" />
     <Content Include="Images\Manual\settings_bazis_2.png" />

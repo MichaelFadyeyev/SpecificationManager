@@ -21,59 +21,87 @@ namespace SpecificationManager.Operations
         string filePath;
         string code;
         string currentId;
-        //FileDialogService openFile = new FileDialogService();
         int col;
         int row;
-        readonly int range = WorksheetFormatter.ColumnsRead;
         readonly int headerHeight = WorksheetFormatter.HeaderRowHeight;
-        internal Specification Load()
+        internal Specification Import()
         {
             Specification specification = new Specification();
             Excel.Application xlApp = new Excel.Application();
             try
             {
-                filePath = FileDialogService.OpenFile("xls");
-                if (filePath != null)
-                {
-                    Workbook xlWorkbook = xlApp.Workbooks.Open(filePath);
-                    Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-                    Range xlRange = xlWorksheet.UsedRange;
-                    col = WorksheetFormatter.StartColumn;
-                    row = WorksheetFormatter.StartRow;
-                    try
-                    {
-                        // fill specification model object from exel specification
-                        while (xlRange.Cells[row, col] != null && xlRange.Cells[row, col].Value2 != null)
-                        {
-                            if (xlRange.Cells[row, col + 4].Value2.ToString().Contains("SP") &&
-                                !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T1") &&
-                                !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T2") &&
-                                !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M1 ") &&
-                                !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M5 "))
-                            {
-                                code = xlRange.Cells[row, col + 4].Value2.ToString();
-                                currentId = code.Substring(code.IndexOf("SP"), 3);
+                //filePath = FileDialogService.OpenFile("xls")[0];
+                string[] files = FileDialogService.OpenFile("xls");
 
-                                specification.Suppliers
-                                    .Single(sid => sid.SupplierId == currentId)
-                                    .Products.Add(new Product(
-                                        xlRange.Cells[row, col].Value2.ToString(),
-                                        xlRange.Cells[row, col + 1].Value2.ToString(),
-                                        xlRange.Cells[row, col + 2].Value2.ToString(),
-                                        xlRange.Cells[row, col + 3].Value2.ToString(),
-                                        xlRange.Cells[row, col + 4].Value2.ToString()));
+                if (files != null)
+                {
+                    Workbook xlWorkbook;
+                    Worksheet xlWorksheet;
+                    Range xlRange;
+
+                    foreach (string file in files)
+                    {
+                        xlWorkbook = xlApp.Workbooks.Open(file);
+                        xlWorksheet = xlWorkbook.Sheets[1];
+                        xlRange = xlWorksheet.UsedRange;
+
+                        col = WorksheetFormatter.StartColumn;
+                        row = WorksheetFormatter.StartRow;
+                        try
+                        {
+                            // fill specification model object from exel specification
+                            while (xlRange.Cells[row, col] != null && xlRange.Cells[row, col].Value2 != null)
+                            {
+                                if (xlRange.Cells[row, col + 4].Value2.ToString().Contains("SP") &&
+                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T1") &&
+                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T2") &&
+                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M1 ") &&
+                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M5 "))
+                                {
+                                    code = xlRange.Cells[row, col + 4].Value2.ToString();
+                                    currentId = code.Substring(code.IndexOf("SP"), 3);
+
+                                    var newProduct = new Product(
+                                            xlRange.Cells[row, col].Value2.ToString(),
+                                            xlRange.Cells[row, col + 1].Value2.ToString(),
+                                            xlRange.Cells[row, col + 2].Value2.ToString(),
+                                            xlRange.Cells[row, col + 3].Value2.ToString(),
+                                            xlRange.Cells[row, col + 4].Value2.ToString());
+
+                                    var existProduct = specification.FindProduct(currentId, newProduct.Article);
+                                    if (existProduct != null)
+                                    {
+                                        //existProduct.Quantity += newProduct.Quantity;
+                                        specification.SumProducts(existProduct, newProduct);
+                                    }
+                                    else
+                                    {
+                                        specification.Suppliers
+                                        .Single(sid => sid.SupplierId == currentId)
+                                        .Products.Add(newProduct);
+                                    }
+
+                                    //specification.Suppliers
+                                    //    .Single(sid => sid.SupplierId == currentId)
+                                    //    .Products.Add(new Product(
+                                    //        xlRange.Cells[row, col].Value2.ToString(),
+                                    //        xlRange.Cells[row, col + 1].Value2.ToString(),
+                                    //        xlRange.Cells[row, col + 2].Value2.ToString(),
+                                    //        xlRange.Cells[row, col + 3].Value2.ToString(),
+                                    //        xlRange.Cells[row, col + 4].Value2.ToString()));
+                                }
+                                row++;
                             }
-                            row++;
+                            specification.Article = xlRange.Cells[6, 2].Value2.ToString();
                         }
-                        specification.Article = xlRange.Cells[6, 2].Value2.ToString();
-                    }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
-                    finally
-                    {
-                        ExcelCloseWorkbook(xlWorkbook, xlWorksheet, xlRange);
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                        finally
+                        {
+                            ExcelCloseWorkbook(xlWorkbook, xlWorksheet, xlRange);
+                        }
                     }
                 }
             }
@@ -88,7 +116,7 @@ namespace SpecificationManager.Operations
             }
             return specification;
         }
-        internal bool SaveSeparated(Specification specification, List<string> chekedSuppliers)
+        internal bool ExportSeparated(Specification specification, List<string> chekedSuppliers)
         {
             //write separate specifications to *.xlsx
             bool result = default;
@@ -112,7 +140,7 @@ namespace SpecificationManager.Operations
 
                         xlRange.RowHeight = headerHeight;
 
-                        for (col = 1; col <= range; col++)
+                        for (col = 1; col <= WorksheetFormatter.ColumnsRange1; col++)
                         {
                             xlRange.Cells[1, col] = WorksheetFormatter.HeaderText[col - 1];
                             xlRange = xlWorksheet.Columns[col];
@@ -172,7 +200,7 @@ namespace SpecificationManager.Operations
             return result;
         }
 
-        internal bool SaveSingle(Specification specification, List<string> chekedSuppliers)
+        internal bool ExportSingle(Specification specification, List<string> chekedSuppliers)
         {
             //write single specification to *.xlsx
             bool result = default;
@@ -188,7 +216,7 @@ namespace SpecificationManager.Operations
                 //-> ФОРМУЄМО ХЕДЕР
                 xlRange.RowHeight = headerHeight;
 
-                for (col = 1; col <= range; col++)
+                for (col = 1; col <= WorksheetFormatter.ColumnsRange2; col++)
                 {
                     xlRange.Cells[1, col] = WorksheetFormatter.HeaderText[col - 1];
                     xlRange = xlWorksheet.Columns[col];
@@ -219,6 +247,7 @@ namespace SpecificationManager.Operations
                             xlWorksheet.Cells[row, col].HorizontalAlignment = XlHAlign.xlHAlignLeft;
                             xlRange.Cells[row, ++col] = detail.Quantity;
                             xlRange.Cells[row, ++col] = detail.Units;
+                            xlRange.Cells[row, ++col] = supplier.Name;
                             row++;
                             col = 0;
                         }

@@ -175,7 +175,7 @@ namespace SpecificationManager.Operations
             result = default;
             try
             {
-                filePath = FileDialogService.OpenFile("project");
+                filePath = FileDialogService.OpenFile("project")[0];
 
                 Supplier viyar = specification.Suppliers.Where(s => s.Name == "Viyar").First();
                 doc = XDocument.Load(filePath);

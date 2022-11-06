@@ -20,5 +20,4 @@ namespace SpecificationManager.Models
             Units = u;
         }
     }
-
 }

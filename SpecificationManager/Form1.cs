@@ -35,26 +35,33 @@ namespace SpecificationManager
         }
 
         #region Menu Events
-        private void saveSpecMenuItem_Click(object sender, EventArgs e)
+        private void saveMenuItem_Click(object sender, EventArgs e)
         {
-            SaveSpec(SaveFileMode.SaveSingle);
+            MessageBox.Show("Збереження - в розробці", "Інформація",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        //
+        void impExcelMenuItem_Click(object sender, EventArgs e)
+        {
+            ImportExcel();
+        }
+        void expSeparatedMenuItem_Click(object sender, EventArgs e)
+        {
+            Export(ExportExcelMode.Separated);
         }
 
-        void imporExcelMenuItem_Click(object sender, EventArgs e)
+        private void expSingleMenuItem_Click(object sender, EventArgs e)
         {
-            ImporExcel();
+            Export(ExportExcelMode.Single);
         }
-        void splitAndSaveMenuItem_Click(object sender, EventArgs e)
+
+        void addToProjectMenuItem_Click(object sender, EventArgs e)
         {
-            SaveSpec(SaveFileMode.SaveSeparated);
+            AddToProject();
         }
-        void exportToProjectMenuItem_Click(object sender, EventArgs e)
+        void appendExcelMenu_Click(object sender, EventArgs e)
         {
-            ExportToProject();
-        }
-        void mergeGeneralSpecMenu_Click(object sender, EventArgs e)
-        {
-            MergeGeneralSpec();
+            AppendExcel();
         }
         void editRastexMenu_Click(object sender, EventArgs e)
         {
@@ -91,32 +98,32 @@ namespace SpecificationManager
         #endregion
 
         #region Buttons Events
-        void importExcelButton_Click(object sender, EventArgs e)
+        void impExcelButton_Click(object sender, EventArgs e)
         {
-            ImporExcel();
+            ImportExcel();
         }
-        void splitAndSaveButton_Click(object sender, EventArgs e)
+        void expSeparatedButton_Click(object sender, EventArgs e)
         {
-            SaveSpec(SaveFileMode.SaveSeparated);
+            Export(ExportExcelMode.Separated);
         }
-        void exportToProjectButton_Click(object sender, EventArgs e)
+        void addToProjectButton_Click(object sender, EventArgs e)
         {
-            ExportToProject();
+            AddToProject();
         }
-        void mergeToProjectButton_Click(object sender, EventArgs e)
+        void appendExcelButton_Click(object sender, EventArgs e)
         {
-            MergeGeneralSpec();
+            AppendExcel();
         }
         #endregion
 
         #region IO Methodes
-        void ImporExcel()
+        void ImportExcel()
         {
             try
             {
                 dataGrid.Rows.Clear();
                 timeSpanFild.Clear();
-                specification = om.LoadSpecification();
+                specification = om.ImportExcel();
                 FillDataGrid();
 
             }
@@ -125,7 +132,7 @@ namespace SpecificationManager
                 ShowExceptionMessage(exeption);
             }
         }
-        void SaveSpec(SaveFileMode mode)
+        void Export(ExportExcelMode mode)
         {
             if (dataGrid.Rows.Count == 0)
             {
@@ -135,7 +142,7 @@ namespace SpecificationManager
             }
             try
             {
-                if (om.WriteExcel(checkedSuppliers, mode))
+                if (om.ExportExcel(checkedSuppliers, mode))
                 {
                     MessageBox.Show("Файли специфікацій успішно збережено", "Інформація",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -151,7 +158,7 @@ namespace SpecificationManager
                 ShowExceptionMessage(exeption);
             }
         }
-        void ExportToProject()
+        void AddToProject()
         {
             if (dataGrid.Rows.Count == 0)
             {
@@ -162,7 +169,7 @@ namespace SpecificationManager
             try
             {
 
-                if (om.ExporToProject())
+                if (om.AddToProject())
                 {
                     MessageBox.Show("Деталі успішно експортовано", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -177,11 +184,11 @@ namespace SpecificationManager
                 ShowExceptionMessage(exeption);
             }
         }
-        void MergeGeneralSpec()
+        void AppendExcel()
         {
             try
             {
-                specification = om.MergeSpecifications();
+                specification = om.AppendExcel();
                 dataGrid.Rows.Clear();
                 FillDataGrid();
                 timeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
@@ -192,6 +199,7 @@ namespace SpecificationManager
             }
         }
         #endregion
+
 
         #region Tools Methodes
         void EditItems(ToolStripItem currenMenuItem)
@@ -255,7 +263,7 @@ namespace SpecificationManager
                     checkedSuppliers.Add(supplier.Name);
                 }
             }
-            ContractNumberFild.Text = specification.Article;
+            ContractNumberField.Text = specification.Article;
             specificationIsLoaded = true;
             timeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
         }
@@ -310,8 +318,8 @@ namespace SpecificationManager
             MessageBox.Show(exeption.Message, "Увага!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        #endregion
 
+        #endregion
 
     }
 }

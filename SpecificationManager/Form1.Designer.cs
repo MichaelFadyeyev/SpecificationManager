@@ -32,13 +32,14 @@ namespace SpecificationManager
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openSpecMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveSpecMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsSpecMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openExcelMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitAndSaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToProjectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mergeGeneralSpecMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.impExcelMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expSeparatedMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expSingleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToProjectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.appendExcelMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.detailOperationsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editRastexMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,17 +50,18 @@ namespace SpecificationManager
             this.settingsBazisMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.timeSpanFild = new System.Windows.Forms.TextBox();
-            this.ContractNumberFild = new System.Windows.Forms.TextBox();
-            this.exportToProjectButton = new System.Windows.Forms.Button();
-            this.splitAndSaveButton = new System.Windows.Forms.Button();
-            this.importExcelButton = new System.Windows.Forms.Button();
+            this.ContractNumberField = new System.Windows.Forms.TextBox();
+            this.addToProjectButton = new System.Windows.Forms.Button();
+            this.expSeparatedButton = new System.Windows.Forms.Button();
+            this.impExcelButton = new System.Windows.Forms.Button();
             this.dataGrid = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.suppliersList = new System.Windows.Forms.CheckedListBox();
-            this.mergeToProjectButton = new System.Windows.Forms.Button();
+            this.appendExcelButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.expSingleButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -82,13 +84,14 @@ namespace SpecificationManager
             // fileMenuItem
             // 
             this.fileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openSpecMenuItem,
-            this.saveSpecMenuItem,
-            this.saveAsSpecMenuItem,
-            this.openExcelMenuItem,
-            this.splitAndSaveMenuItem,
-            this.exportToProjectMenuItem,
-            this.mergeGeneralSpecMenu});
+            this.openMenuItem,
+            this.saveMenuItem,
+            this.saveAsMenuItem,
+            this.impExcelMenuItem,
+            this.appendExcelMenu,
+            this.expSeparatedMenuItem,
+            this.expSingleMenuItem,
+            this.addToProjectMenuItem});
             this.fileMenuItem.Name = "fileMenuItem";
             this.fileMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
             this.fileMenuItem.Size = new System.Drawing.Size(48, 20);
@@ -96,70 +99,82 @@ namespace SpecificationManager
             this.fileMenuItem.Text = "Файл";
             this.fileMenuItem.ToolTipText = "Операції з файлами";
             // 
-            // openSpecMenuItem
+            // openMenuItem
             // 
-            this.openSpecMenuItem.Enabled = false;
-            this.openSpecMenuItem.Name = "openSpecMenuItem";
-            this.openSpecMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openSpecMenuItem.Size = new System.Drawing.Size(336, 22);
-            this.openSpecMenuItem.Text = "Відкрити специфікацію";
-            this.openSpecMenuItem.Visible = false;
+            this.openMenuItem.Enabled = false;
+            this.openMenuItem.Name = "openMenuItem";
+            this.openMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.openMenuItem.Text = "Відкрити специфікацію";
+            this.openMenuItem.ToolTipText = "Відкрити специфікацію";
+            this.openMenuItem.Visible = false;
             // 
-            // saveSpecMenuItem_Click
+            // saveMenuItem
             // 
-            this.saveSpecMenuItem.Name = "saveSpecMenuItem_Click";
-            this.saveSpecMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveSpecMenuItem.Size = new System.Drawing.Size(336, 22);
-            this.saveSpecMenuItem.Text = "Зберегти специфікацію";
-            this.saveSpecMenuItem.ToolTipText = "Зберегти специфікацію";
-            this.saveSpecMenuItem.Click += new System.EventHandler(this.saveSpecMenuItem_Click);
+            this.saveMenuItem.Name = "saveMenuItem";
+            this.saveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.saveMenuItem.Text = "Зберегти специфікацію";
+            this.saveMenuItem.ToolTipText = "Зберегти специфікацію";
+            this.saveMenuItem.Click += new System.EventHandler(this.saveMenuItem_Click);
             // 
-            // saveAsSpecMenuItem
+            // saveAsMenuItem
             // 
-            this.saveAsSpecMenuItem.Enabled = false;
-            this.saveAsSpecMenuItem.Name = "saveAsSpecMenuItem";
-            this.saveAsSpecMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.saveAsMenuItem.Enabled = false;
+            this.saveAsMenuItem.Name = "saveAsMenuItem";
+            this.saveAsMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.saveAsSpecMenuItem.Size = new System.Drawing.Size(336, 22);
-            this.saveAsSpecMenuItem.Text = "Зберегти специфікацію, як";
-            this.saveAsSpecMenuItem.Visible = false;
+            this.saveAsMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.saveAsMenuItem.Text = "Зберегти специфікацію як";
+            this.saveAsMenuItem.ToolTipText = "Зберегти специфікацію як";
+            this.saveAsMenuItem.Visible = false;
             // 
-            // openExcelMenuItem
+            // impExcelMenuItem
             // 
-            this.openExcelMenuItem.Name = "openExcelMenuItem";
-            this.openExcelMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.openExcelMenuItem.Size = new System.Drawing.Size(336, 22);
-            this.openExcelMenuItem.Text = "Імпортувати загальну специфікацію";
-            this.openExcelMenuItem.ToolTipText = "Імпорт файлу специфікації";
-            this.openExcelMenuItem.Click += new System.EventHandler(this.imporExcelMenuItem_Click);
+            this.impExcelMenuItem.Name = "impExcelMenuItem";
+            this.impExcelMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.impExcelMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.impExcelMenuItem.Text = "Імпортувати загальну специфікацію";
+            this.impExcelMenuItem.ToolTipText = "Імпорт файлу специфікації";
+            this.impExcelMenuItem.Click += new System.EventHandler(this.impExcelMenuItem_Click);
             // 
-            // splitAndSaveMenuItem
+            // expSeparatedMenuItem
             // 
-            this.splitAndSaveMenuItem.Name = "splitAndSaveMenuItem";
-            this.splitAndSaveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.splitAndSaveMenuItem.Size = new System.Drawing.Size(336, 22);
-            this.splitAndSaveMenuItem.Text = "Зберегти специфікації по виробникам";
-            this.splitAndSaveMenuItem.ToolTipText = "Зберегти специфікації в окремі файли";
-            this.splitAndSaveMenuItem.Click += new System.EventHandler(this.splitAndSaveMenuItem_Click);
+            this.expSeparatedMenuItem.Name = "expSeparatedMenuItem";
+            this.expSeparatedMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.expSeparatedMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.expSeparatedMenuItem.Text = "Експортувати специфікації по виробникам";
+            this.expSeparatedMenuItem.ToolTipText = "Експортувати специфікації по виробникам";
+            this.expSeparatedMenuItem.Click += new System.EventHandler(this.expSeparatedMenuItem_Click);
             // 
-            // exportToProjectMenuItem
+            // expSingleMenuItem
             // 
-            this.exportToProjectMenuItem.Name = "exportToProjectMenuItem";
-            this.exportToProjectMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.expSingleMenuItem.Name = "expSingleMenuItem";
+            this.expSingleMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.E)));
-            this.exportToProjectMenuItem.Size = new System.Drawing.Size(336, 22);
-            this.exportToProjectMenuItem.Text = "Експрт фурнітури у файл ViyarPRO";
-            this.exportToProjectMenuItem.ToolTipText = "Експортувати фурнітуру у файл ViyarPRO";
-            this.exportToProjectMenuItem.Click += new System.EventHandler(this.exportToProjectMenuItem_Click);
+            this.expSingleMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.expSingleMenuItem.Text = "Експортувати загальну специфікацію";
+            this.expSingleMenuItem.ToolTipText = "Експортувати загальну специфікацію";
+            this.expSingleMenuItem.Click += new System.EventHandler(this.expSingleMenuItem_Click);
             // 
-            // mergeGeneralSpecMenu
+            // addToProjectMenuItem
             // 
-            this.mergeGeneralSpecMenu.Name = "mergeGeneralSpecMenu";
-            this.mergeGeneralSpecMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.mergeGeneralSpecMenu.Size = new System.Drawing.Size(336, 22);
-            this.mergeGeneralSpecMenu.Text = "Додати загальну специфікацію";
-            this.mergeGeneralSpecMenu.ToolTipText = "Додати специфікацію до відкритої";
-            this.mergeGeneralSpecMenu.Click += new System.EventHandler(this.mergeGeneralSpecMenu_Click);
+            this.addToProjectMenuItem.Name = "addToProjectMenuItem";
+            this.addToProjectMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.J)));
+            this.addToProjectMenuItem.Size = new System.Drawing.Size(351, 22);
+            this.addToProjectMenuItem.Text = "Додати фурнітуру у файл ViyarPRO";
+            this.addToProjectMenuItem.ToolTipText = "Додати фурнітуру у файл ViyarPRO";
+            this.addToProjectMenuItem.Click += new System.EventHandler(this.addToProjectMenuItem_Click);
+            // 
+            // appendExcelMenu
+            // 
+            this.appendExcelMenu.Name = "appendExcelMenu";
+            this.appendExcelMenu.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.appendExcelMenu.Size = new System.Drawing.Size(351, 22);
+            this.appendExcelMenu.Text = "Додати загальну специфікацію";
+            this.appendExcelMenu.ToolTipText = "Додати специфікацію до відкритої";
+            this.appendExcelMenu.Click += new System.EventHandler(this.appendExcelMenu_Click);
             // 
             // toolsMenu
             // 
@@ -264,46 +279,46 @@ namespace SpecificationManager
             this.timeSpanFild.Size = new System.Drawing.Size(244, 23);
             this.timeSpanFild.TabIndex = 3;
             // 
-            // ContractNumberFild
+            // ContractNumberField
             // 
-            this.ContractNumberFild.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ContractNumberFild.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.ContractNumberFild.Location = new System.Drawing.Point(6, 32);
-            this.ContractNumberFild.Name = "ContractNumberFild";
-            this.ContractNumberFild.ReadOnly = true;
-            this.ContractNumberFild.Size = new System.Drawing.Size(249, 23);
-            this.ContractNumberFild.TabIndex = 2;
-            this.ContractNumberFild.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ContractNumberField.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ContractNumberField.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.ContractNumberField.Location = new System.Drawing.Point(6, 32);
+            this.ContractNumberField.Name = "ContractNumberField";
+            this.ContractNumberField.ReadOnly = true;
+            this.ContractNumberField.Size = new System.Drawing.Size(249, 23);
+            this.ContractNumberField.TabIndex = 2;
+            this.ContractNumberField.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // exportToProjectButton
+            // addToProjectButton
             // 
-            this.exportToProjectButton.Location = new System.Drawing.Point(6, 515);
-            this.exportToProjectButton.Name = "exportToProjectButton";
-            this.exportToProjectButton.Size = new System.Drawing.Size(247, 33);
-            this.exportToProjectButton.TabIndex = 6;
-            this.exportToProjectButton.Text = "Експрт фурнітури у файл ViyarPRO";
-            this.exportToProjectButton.UseVisualStyleBackColor = true;
-            this.exportToProjectButton.Click += new System.EventHandler(this.exportToProjectButton_Click);
+            this.addToProjectButton.Location = new System.Drawing.Point(6, 554);
+            this.addToProjectButton.Name = "addToProjectButton";
+            this.addToProjectButton.Size = new System.Drawing.Size(247, 33);
+            this.addToProjectButton.TabIndex = 7;
+            this.addToProjectButton.Text = "Додати фурнітуру у файл ViyarPRO";
+            this.addToProjectButton.UseVisualStyleBackColor = true;
+            this.addToProjectButton.Click += new System.EventHandler(this.addToProjectButton_Click);
             // 
-            // splitAndSaveButton
+            // expSeparatedButton
             // 
-            this.splitAndSaveButton.Location = new System.Drawing.Point(6, 476);
-            this.splitAndSaveButton.Name = "splitAndSaveButton";
-            this.splitAndSaveButton.Size = new System.Drawing.Size(247, 33);
-            this.splitAndSaveButton.TabIndex = 5;
-            this.splitAndSaveButton.Text = "Зберегти специфікації по виробникам";
-            this.splitAndSaveButton.UseVisualStyleBackColor = true;
-            this.splitAndSaveButton.Click += new System.EventHandler(this.splitAndSaveButton_Click);
+            this.expSeparatedButton.Location = new System.Drawing.Point(6, 476);
+            this.expSeparatedButton.Name = "expSeparatedButton";
+            this.expSeparatedButton.Size = new System.Drawing.Size(247, 33);
+            this.expSeparatedButton.TabIndex = 5;
+            this.expSeparatedButton.Text = "Зберегти специфікації по виробникам";
+            this.expSeparatedButton.UseVisualStyleBackColor = true;
+            this.expSeparatedButton.Click += new System.EventHandler(this.expSeparatedButton_Click);
             // 
-            // importExcelButton
+            // impExcelButton
             // 
-            this.importExcelButton.Location = new System.Drawing.Point(7, 437);
-            this.importExcelButton.Name = "importExcelButton";
-            this.importExcelButton.Size = new System.Drawing.Size(247, 33);
-            this.importExcelButton.TabIndex = 4;
-            this.importExcelButton.Text = "Відкрити загальну специфікацію";
-            this.importExcelButton.UseVisualStyleBackColor = true;
-            this.importExcelButton.Click += new System.EventHandler(this.importExcelButton_Click);
+            this.impExcelButton.Location = new System.Drawing.Point(7, 437);
+            this.impExcelButton.Name = "impExcelButton";
+            this.impExcelButton.Size = new System.Drawing.Size(247, 33);
+            this.impExcelButton.TabIndex = 4;
+            this.impExcelButton.Text = "Відкрити загальну специфікацію";
+            this.impExcelButton.UseVisualStyleBackColor = true;
+            this.impExcelButton.Click += new System.EventHandler(this.impExcelButton_Click);
             // 
             // dataGrid
             // 
@@ -346,13 +361,14 @@ namespace SpecificationManager
             // 
             this.groupBox3.Controls.Add(this.suppliersList);
             this.groupBox3.Controls.Add(this.timeSpanFild);
-            this.groupBox3.Controls.Add(this.ContractNumberFild);
-            this.groupBox3.Controls.Add(this.mergeToProjectButton);
-            this.groupBox3.Controls.Add(this.exportToProjectButton);
+            this.groupBox3.Controls.Add(this.ContractNumberField);
+            this.groupBox3.Controls.Add(this.appendExcelButton);
+            this.groupBox3.Controls.Add(this.addToProjectButton);
             this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.splitAndSaveButton);
+            this.groupBox3.Controls.Add(this.expSingleButton);
+            this.groupBox3.Controls.Add(this.expSeparatedButton);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.importExcelButton);
+            this.groupBox3.Controls.Add(this.impExcelButton);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox3.Location = new System.Drawing.Point(784, 13);
             this.groupBox3.Name = "groupBox3";
@@ -370,15 +386,15 @@ namespace SpecificationManager
             this.suppliersList.TabIndex = 3;
             this.suppliersList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.suppliersList_ItemCheck);
             // 
-            // mergeToProjectButton
+            // appendExcelButton
             // 
-            this.mergeToProjectButton.Location = new System.Drawing.Point(7, 554);
-            this.mergeToProjectButton.Name = "mergeToProjectButton";
-            this.mergeToProjectButton.Size = new System.Drawing.Size(247, 33);
-            this.mergeToProjectButton.TabIndex = 7;
-            this.mergeToProjectButton.Text = "Додати загальну специфікацію";
-            this.mergeToProjectButton.UseVisualStyleBackColor = true;
-            this.mergeToProjectButton.Click += new System.EventHandler(this.mergeToProjectButton_Click);
+            this.appendExcelButton.Location = new System.Drawing.Point(7, 593);
+            this.appendExcelButton.Name = "appendExcelButton";
+            this.appendExcelButton.Size = new System.Drawing.Size(247, 33);
+            this.appendExcelButton.TabIndex = 8;
+            this.appendExcelButton.Text = "Додати загальну специфікацію";
+            this.appendExcelButton.UseVisualStyleBackColor = true;
+            this.appendExcelButton.Click += new System.EventHandler(this.appendExcelButton_Click);
             // 
             // label3
             // 
@@ -388,6 +404,16 @@ namespace SpecificationManager
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "Виробники:";
+            // 
+            // expSingleButton
+            // 
+            this.expSingleButton.Location = new System.Drawing.Point(7, 515);
+            this.expSingleButton.Name = "expSingleButton";
+            this.expSingleButton.Size = new System.Drawing.Size(247, 33);
+            this.expSingleButton.TabIndex = 6;
+            this.expSingleButton.Text = "Зберегти загальну специфікацію";
+            this.expSingleButton.UseVisualStyleBackColor = true;
+            this.expSingleButton.Click += new System.EventHandler(this.expSingleMenuItem_Click);
             // 
             // Form1
             // 
@@ -416,22 +442,22 @@ namespace SpecificationManager
         }
 
         #endregion
-        private System.Windows.Forms.Button exportToProjectButton;
-        private System.Windows.Forms.Button splitAndSaveButton;
-        private System.Windows.Forms.Button importExcelButton;
+        private System.Windows.Forms.Button addToProjectButton;
+        private System.Windows.Forms.Button expSeparatedButton;
+        private System.Windows.Forms.Button impExcelButton;
         private System.Windows.Forms.DataGridView dataGrid;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox ContractNumberFild;
+        private System.Windows.Forms.TextBox ContractNumberField;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem settingsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsBazisMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openExcelMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem splitAndSaveMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToProjectMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem impExcelMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem expSeparatedMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToProjectMenuItem;
         private System.Windows.Forms.TextBox timeSpanFild;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ToolStripMenuItem mergeGeneralSpecMenu;
+        private System.Windows.Forms.ToolStripMenuItem appendExcelMenu;
         private System.Windows.Forms.ToolStripMenuItem toolsMenu;
         private System.Windows.Forms.ToolStripMenuItem detailOperationsMenu;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -442,10 +468,12 @@ namespace SpecificationManager
         private System.Windows.Forms.ToolStripMenuItem editRafixMenu;
         private System.Windows.Forms.ToolStripMenuItem editScrewsMenu;
         private System.Windows.Forms.ToolStripMenuItem setPathMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openSpecMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveSpecMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsSpecMenuItem;
-        private System.Windows.Forms.Button mergeToProjectButton;
+        private System.Windows.Forms.ToolStripMenuItem openMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsMenuItem;
+        private System.Windows.Forms.Button appendExcelButton;
+        private System.Windows.Forms.ToolStripMenuItem expSingleMenuItem;
+        private System.Windows.Forms.Button expSingleButton;
     }
 }
 

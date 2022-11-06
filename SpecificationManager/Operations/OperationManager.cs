@@ -37,11 +37,11 @@ namespace SpecificationManager.Operations
 
         }
 
-        public Specification LoadSpecification()
+        public Specification ImportExcel()
         {
             stopwatch.Start();
 
-            specification = excelOperations.Load();
+            specification = excelOperations.Import();
 
             stopwatch.Stop();
             TimeSpan = stopwatch.ElapsedMilliseconds.ToString();
@@ -50,16 +50,16 @@ namespace SpecificationManager.Operations
             return specification;
         }
 
-        public bool WriteExcel(List<string> chekedSuppliers, SaveFileMode mode)
+        public bool ExportExcel(List<string> chekedSuppliers, ExportExcelMode mode)
         {
             try
             {
                 switch (mode)
                 {
-                    case SaveFileMode.SaveSingle:
-                        return excelOperations.SaveSingle(specification, chekedSuppliers);
-                    case SaveFileMode.SaveSeparated:
-                        return excelOperations.SaveSeparated(specification, chekedSuppliers);
+                    case ExportExcelMode.Single:
+                        return excelOperations.ExportSingle(specification, chekedSuppliers);
+                    case ExportExcelMode.Separated:
+                        return excelOperations.ExportSeparated(specification, chekedSuppliers);
                     default:
                         return false;
                 }
@@ -71,17 +71,17 @@ namespace SpecificationManager.Operations
             }
         }
 
-        public bool ExporToProject()
+        public bool AddToProject()
         {
             return xmlOperations.ExportProjectData(specification);
         }
 
-        public Specification MergeSpecifications()
+        public Specification AppendExcel()
         {
             if (specification != null)
             {
                 stopwatch.Start();
-                Specification importedSpecification = excelOperations.Load();
+                Specification importedSpecification = excelOperations.Import();
 
                 Product importedDetail;
                 Product detail;

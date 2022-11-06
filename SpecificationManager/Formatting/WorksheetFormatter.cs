@@ -8,7 +8,7 @@ namespace SpecificationManager.Formatting
 {
     public class WorksheetFormatter
     {
-        public static int[] ColumnWitdh = new int[]  { 5, 20, 70, 10, 10 };
+        public static int[] ColumnWitdh = new int[]  { 5, 20, 70, 10, 10, 10 };
 
         public static string[] HeaderText = new string[]
         {
@@ -16,7 +16,8 @@ namespace SpecificationManager.Formatting
         "Артикул",
         "Найменування",
         "Кількість",
-        "Одиниці виміру"
+        "Одиниці виміру",
+        "Виробник"
         };
 
         static int startRow = 12;
@@ -33,11 +34,18 @@ namespace SpecificationManager.Formatting
             set { startColumn = StartColumn; }
         }
 
-        static int columnsRead = 5;
-        public static int ColumnsRead
+        static int columnsRange1 = 5;
+        public static int ColumnsRange1
         {
-            get => columnsRead;
-            set { columnsRead = ColumnsRead; }
+            get => columnsRange1;
+            set { columnsRange1 = ColumnsRange1; }
+        }
+
+        static int columnsRange2 = 6;
+        public static int ColumnsRange2
+        {
+            get => columnsRange2;
+            set { columnsRange2 = ColumnsRange2; }
         }
 
         static int headerRowHeight = 29;

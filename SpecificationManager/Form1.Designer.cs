@@ -36,10 +36,10 @@ namespace SpecificationManager
             this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.impExcelMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.appendExcelMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.expSeparatedMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.expSingleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToProjectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.appendExcelMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.detailOperationsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editRastexMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,33 +101,33 @@ namespace SpecificationManager
             // 
             // openMenuItem
             // 
-            this.openMenuItem.Enabled = false;
             this.openMenuItem.Name = "openMenuItem";
             this.openMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openMenuItem.Size = new System.Drawing.Size(351, 22);
             this.openMenuItem.Text = "Відкрити специфікацію";
             this.openMenuItem.ToolTipText = "Відкрити специфікацію";
-            this.openMenuItem.Visible = false;
+            this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
             // 
             // saveMenuItem
             // 
+            this.saveMenuItem.Enabled = false;
             this.saveMenuItem.Name = "saveMenuItem";
             this.saveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveMenuItem.Size = new System.Drawing.Size(351, 22);
             this.saveMenuItem.Text = "Зберегти специфікацію";
             this.saveMenuItem.ToolTipText = "Зберегти специфікацію";
+            this.saveMenuItem.Visible = false;
             this.saveMenuItem.Click += new System.EventHandler(this.saveMenuItem_Click);
             // 
             // saveAsMenuItem
             // 
-            this.saveAsMenuItem.Enabled = false;
             this.saveAsMenuItem.Name = "saveAsMenuItem";
             this.saveAsMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.saveAsMenuItem.Size = new System.Drawing.Size(351, 22);
             this.saveAsMenuItem.Text = "Зберегти специфікацію як";
             this.saveAsMenuItem.ToolTipText = "Зберегти специфікацію як";
-            this.saveAsMenuItem.Visible = false;
+            this.saveAsMenuItem.Click += new System.EventHandler(this.saveAsMenuItem_Click);
             // 
             // impExcelMenuItem
             // 
@@ -137,6 +137,16 @@ namespace SpecificationManager
             this.impExcelMenuItem.Text = "Імпортувати загальну специфікацію";
             this.impExcelMenuItem.ToolTipText = "Імпорт файлу специфікації";
             this.impExcelMenuItem.Click += new System.EventHandler(this.impExcelMenuItem_Click);
+            // 
+            // appendExcelMenu
+            // 
+            this.appendExcelMenu.Name = "appendExcelMenu";
+            this.appendExcelMenu.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.appendExcelMenu.Size = new System.Drawing.Size(351, 22);
+            this.appendExcelMenu.Text = "Додати загальну специфікацію";
+            this.appendExcelMenu.ToolTipText = "Додати специфікацію до відкритої";
+            this.appendExcelMenu.Click += new System.EventHandler(this.appendExcelMenu_Click);
             // 
             // expSeparatedMenuItem
             // 
@@ -165,16 +175,6 @@ namespace SpecificationManager
             this.addToProjectMenuItem.Text = "Додати фурнітуру у файл ViyarPRO";
             this.addToProjectMenuItem.ToolTipText = "Додати фурнітуру у файл ViyarPRO";
             this.addToProjectMenuItem.Click += new System.EventHandler(this.addToProjectMenuItem_Click);
-            // 
-            // appendExcelMenu
-            // 
-            this.appendExcelMenu.Name = "appendExcelMenu";
-            this.appendExcelMenu.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.I)));
-            this.appendExcelMenu.Size = new System.Drawing.Size(351, 22);
-            this.appendExcelMenu.Text = "Додати загальну специфікацію";
-            this.appendExcelMenu.ToolTipText = "Додати специфікацію до відкритої";
-            this.appendExcelMenu.Click += new System.EventHandler(this.appendExcelMenu_Click);
             // 
             // toolsMenu
             // 

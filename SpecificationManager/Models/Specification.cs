@@ -1,23 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
-using SpecificationManager.Models.Settings;
 
 namespace SpecificationManager.Models
 {
+    [Serializable]
     public class Specification
     {
         public List<Supplier> Suppliers { get; set; }
         public string Article { get; set; }
 
-        public Specification()
-        {
-            Suppliers = new List<Supplier>();
-            foreach (var item in SuppliersSetting.Naming)
-            {
-                Suppliers.Add(new Supplier(item.Key, item.Value));
-            }
-        }
+        public Specification() { }
 
         public Product FindProduct(string supplierId, string article)
         {

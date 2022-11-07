@@ -37,6 +37,30 @@ namespace SpecificationManager.Operations
 
         }
 
+        public Specification Open()
+        {
+            try
+            {
+                return xmlOperations.OpenXML();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public bool Save(Specification specification, bool saveAsMode)
+        {
+            try
+            {
+                return xmlOperations.SaveXML(specification, saveAsMode);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public Specification ImportExcel()
         {
             stopwatch.Start();

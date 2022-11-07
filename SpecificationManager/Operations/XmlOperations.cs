@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using System.IO;
 using System.Collections.Generic;
 using SpecificationManager.Services;
@@ -52,6 +54,39 @@ namespace SpecificationManager.Operations
             return result;
         }
 
+        public bool SaveXML(Specification specification, bool saveAsMode)
+        {
+            result = default;
+                filePath = FileDialogService.SaveFile();
+            try
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Specification));
+                using (FileStream fs = new FileStream(filePath, FileMode.Create
+                    ))
+                {
+                    xmlSerializer.Serialize(fs, specification);
+                    result = true;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Файл не був прочитаний!");
+            }
+            return result;
+        }
+
+        public Specification OpenXML()
+        {
+            filePath = FileDialogService.OpenFile("xml", false)[0];
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Specification));
+            Specification specification = new Specification();
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            {
+                specification = xmlSerializer.Deserialize(fs) as Specification;
+            }
+            return specification;
+        }
+
         public bool InitializeProductLibrary()
         {
             string workingPath;
@@ -59,7 +94,7 @@ namespace SpecificationManager.Operations
             if (Config.ReplaceProdListCurrentPath == "")
             {
                 workingPath = Config.ReplaceProdListDefaultPath;
-                Config.ReplaceProdListCurrentPath = 
+                Config.ReplaceProdListCurrentPath =
                     Config.ReplaceProdListDefaultPath;
             }
             else

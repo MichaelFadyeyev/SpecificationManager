@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpecificationManager.Models
 {
+    [Serializable]
     public class Product : BaseProduct
     {
         public string Quantity { set; get; }

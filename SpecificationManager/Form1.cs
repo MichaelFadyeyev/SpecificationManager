@@ -35,12 +35,19 @@ namespace SpecificationManager
         }
 
         #region Menu Events
-        private void saveMenuItem_Click(object sender, EventArgs e)
+
+        void openMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Збереження - в розробці", "Інформація",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Open();
         }
-        //
+        void saveMenuItem_Click(object sender, EventArgs e)
+        {
+            Save(specification, false);
+        }
+        void saveAsMenuItem_Click(object sender, EventArgs e)
+        {
+            Save(specification, true);
+        }
         void impExcelMenuItem_Click(object sender, EventArgs e)
         {
             ImportExcel();
@@ -49,12 +56,10 @@ namespace SpecificationManager
         {
             Export(ExportExcelMode.Separated);
         }
-
-        private void expSingleMenuItem_Click(object sender, EventArgs e)
+        void expSingleMenuItem_Click(object sender, EventArgs e)
         {
             Export(ExportExcelMode.Single);
         }
-
         void addToProjectMenuItem_Click(object sender, EventArgs e)
         {
             AddToProject();
@@ -117,6 +122,52 @@ namespace SpecificationManager
         #endregion
 
         #region IO Methodes
+        void Open()
+        {
+            try
+            {
+                var result = om.Open();
+                if (result == null)
+                {
+                    MessageBox.Show("Файл не завантажений", "Помилка",
+                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                specification = result;
+                dataGrid.Rows.Clear();
+                FillDataGrid();
+
+            }
+            catch (Exception exeption)
+            {
+                ShowExceptionMessage(exeption);
+            }
+        }
+        void Save(Specification specification, bool saveAsMode)
+        {
+            if (dataGrid.Rows.Count == 0)
+            {
+                MessageBox.Show("Відсутня основна специфікація.\nПеред збереженням імпортуйте основну специфікацію.", "Увага!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            try
+            {
+                if (om.Save(specification, saveAsMode))
+                {
+                    MessageBox.Show("Файл специфікацій успішно збережено", "Інформація",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                MessageBox.Show("Файл не збережено", "Помилка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (Exception exeption)
+            {
+                ShowExceptionMessage(exeption);
+            }
+        }
         void ImportExcel()
         {
             try
@@ -146,12 +197,10 @@ namespace SpecificationManager
                 {
                     MessageBox.Show("Файли специфікацій успішно збережено", "Інформація",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show("Файли не збережено", "Помилка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show("Файли не збережено", "Помилка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception exeption)
             {
@@ -172,12 +221,9 @@ namespace SpecificationManager
                 if (om.AddToProject())
                 {
                     MessageBox.Show("Деталі успішно експортовано", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show("Деталі не експортовано", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
+                MessageBox.Show("Деталі не експортовано", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception exeption)
             {
@@ -229,9 +275,8 @@ namespace SpecificationManager
                         FillDataGrid();
                         return;
                     }
-                    else
-                        MessageBox.Show("Обрані для заміни деталі - ідентичні.\nЗаміна не виконана!",
-                            "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Обрані для заміни деталі - ідентичні.\nЗаміна не виконана!",
+                        "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -317,9 +362,8 @@ namespace SpecificationManager
         {
             MessageBox.Show(exeption.Message, "Увага!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
-
-
         #endregion
+
 
     }
 }

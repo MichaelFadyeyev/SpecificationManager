@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace SpecificationManager.Models
 {
+    [Serializable]
     public class Supplier
     {
         public string SupplierId { get; set; }
-        public string Name { get; }
+        public string Name { get; set; }
         public List<Product> Products { get; set; }
 
+        public Supplier() { }
         public Supplier(string name)
         {
             Name = name;

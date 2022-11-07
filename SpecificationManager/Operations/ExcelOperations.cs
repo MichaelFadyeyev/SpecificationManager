@@ -10,6 +10,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
 using SpecificationManager.Services;
 using SpecificationManager.Models;
+using SpecificationManager.Models.Settings;
 using SpecificationManager.Formatting;
 using System.Windows.Forms;
 
@@ -26,7 +27,7 @@ namespace SpecificationManager.Operations
         readonly int headerHeight = WorksheetFormatter.HeaderRowHeight;
         internal Specification Import(Specification s)
         {
-            Specification specification = s ?? new Specification();
+            Specification specification = s ?? InitSpecification();
             Excel.Application xlApp = new Excel.Application();
             try
             {
@@ -274,7 +275,7 @@ namespace SpecificationManager.Operations
             return result;
         }
 
-        private static void ExcelCloseWorkbook(Workbook xlWorkbook, Worksheet xlWorksheet, Range xlRange)
+        static void ExcelCloseWorkbook(Workbook xlWorkbook, Worksheet xlWorksheet, Range xlRange)
         {
             //cleanup
             GC.Collect();
@@ -289,5 +290,19 @@ namespace SpecificationManager.Operations
             Marshal.ReleaseComObject(xlWorkbook);
         }
 
+        static Specification InitSpecification()
+        {
+            var specification = new Specification()
+            {
+                Suppliers = new List<Supplier>()
+            };
+            foreach (var item in SuppliersSetting.Naming)
+            {
+                specification.Suppliers.Add(new Supplier(item.Key, item.Value));
+            }
+            return specification;
+        }
     }
+
 }
+

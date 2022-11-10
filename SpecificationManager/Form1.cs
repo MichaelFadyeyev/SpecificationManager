@@ -15,6 +15,7 @@ namespace SpecificationManager
         OperationManager om = new OperationManager();
         Specification specification;
         bool specificationIsLoaded;
+        bool specificationIsSaved;
         List<string> checkedSuppliers;
 
         public Form1()
@@ -70,15 +71,18 @@ namespace SpecificationManager
         }
         void editRastexMenu_Click(object sender, EventArgs e)
         {
-            EditItems(sender as ToolStripItem);
+            //if (specification != null)
+                EditItems(sender as ToolStripItem);
         }
         void editRafixMenu_Click(object sender, EventArgs e)
         {
-            EditItems(sender as ToolStripItem);
+            //if (specification != null)
+                EditItems(sender as ToolStripItem);
         }
         void editScrewsMenu_Click(object sender, EventArgs e)
         {
-            EditItems(sender as ToolStripItem);
+            //if (specification != null)
+                EditItems(sender as ToolStripItem);
         }
         void settingsBazisMenuItem_Click(object sender, EventArgs e)
         {
@@ -100,6 +104,27 @@ namespace SpecificationManager
                 return;
             }
         }
+        private void closeMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!specificationIsLoaded)
+            {
+                SpecificationNotLoadedMessege();
+                return;
+            }
+
+            if (!specificationIsSaved)
+            {
+                if (MessageBox.Show("Зберегти зміни до специфікації?", "Увага!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning) == DialogResult.OK)
+                    Save(specification, false);
+            }
+            dataGrid.Rows.Clear();
+            suppliersList.Items.Clear();
+            articleField.Clear();
+            articleEditBtn.Enabled = false;
+
+            specification = null;
+        }
         #endregion
 
         #region Buttons Events
@@ -118,6 +143,39 @@ namespace SpecificationManager
         void appendExcelButton_Click(object sender, EventArgs e)
         {
             AppendExcel();
+        }
+        private void articleEditBtn_Click(object sender, EventArgs e)
+        {
+            if (specificationIsLoaded)
+            {
+                articleField.ReadOnly = false;
+
+                menuStrip.Enabled = false;
+                dataGrid.Enabled = false;
+                suppliersList.Enabled = false;
+                buttonsGroup.Enabled = false;
+
+                articleSaveBtn.Enabled = true;
+                articleEditBtn.Enabled = false;
+            }
+            else
+                MessageBox.Show("Відсутня основна специфікація!", "Помилка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        private void articleSaveBtn_Click(object sender, EventArgs e)
+        {
+            specification.Article = articleField.Text;
+            articleField.ReadOnly = true;
+
+            menuStrip.Enabled = true;
+            dataGrid.Enabled = true;
+            suppliersList.Enabled = true;
+            buttonsGroup.Enabled = true;
+
+            articleSaveBtn.Enabled = false;
+            articleEditBtn.Enabled = true;
+
+            specificationIsSaved = false;
         }
         #endregion
 
@@ -147,14 +205,14 @@ namespace SpecificationManager
         {
             if (dataGrid.Rows.Count == 0)
             {
-                MessageBox.Show("Відсутня основна специфікація.\nПеред збереженням імпортуйте основну специфікацію.", "Увага!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                SpecificationNotLoadedMessege();
                 return;
             }
             try
             {
                 if (om.Save(specification, saveAsMode))
                 {
+                    specificationIsSaved = true;
                     MessageBox.Show("Файл специфікацій успішно збережено", "Інформація",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -187,8 +245,7 @@ namespace SpecificationManager
         {
             if (dataGrid.Rows.Count == 0)
             {
-                MessageBox.Show("Відсутня основна специфікація.\nПеред збереженням імпортуйте основну специфікацію.", "Увага!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                SpecificationNotLoadedMessege();
                 return;
             }
             try
@@ -246,10 +303,15 @@ namespace SpecificationManager
         }
         #endregion
 
-
         #region Tools Methodes
         void EditItems(ToolStripItem currenMenuItem)
         {
+            if (specification == null)
+            {
+                SpecificationNotLoadedMessege();
+                return;
+            }
+
             string productType = currenMenuItem.Tag.ToString();
 
             var existdItems = om.GetExistItems(productType);
@@ -308,8 +370,9 @@ namespace SpecificationManager
                     checkedSuppliers.Add(supplier.Name);
                 }
             }
-            ContractNumberField.Text = specification.Article;
+            articleField.Text = specification.Article;
             specificationIsLoaded = true;
+            specificationIsSaved = false;
             timeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
         }
         void FilterDataGrid()
@@ -353,8 +416,6 @@ namespace SpecificationManager
                 FilterDataGrid();
             }
         }
-
-
         #endregion
 
         #region Messaging Methodes
@@ -362,8 +423,12 @@ namespace SpecificationManager
         {
             MessageBox.Show(exeption.Message, "Увага!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
+        static void SpecificationNotLoadedMessege()
+        {
+            MessageBox.Show("Відсутня основна специфікація.\nДодайте основну специфікацію.", "Увага!",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
         #endregion
-
-
     }
 }

@@ -32,6 +32,7 @@ namespace SpecificationManager.Operations
             try
             {
                 string[] files = FileDialogService.OpenFile("xls", true);
+                filePath = files[0];
 
                 if (files != null)
                 {
@@ -249,7 +250,7 @@ namespace SpecificationManager.Operations
                     xlWorkbook.SaveAs(
                         Path.GetDirectoryName(filePath) + @"\" +
                         specification.Article + "-" +
-                        "general" +
+                        "ЗВЕДЕНА" +
                         ".xlsx");
                     result = true;
                 }

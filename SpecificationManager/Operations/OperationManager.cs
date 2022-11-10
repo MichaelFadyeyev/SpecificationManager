@@ -41,7 +41,8 @@ namespace SpecificationManager.Operations
         {
             try
             {
-                return xmlOperations.OpenXML();
+                specification = xmlOperations.OpenXML();
+                return specification;
             }
             catch (Exception e)
             {

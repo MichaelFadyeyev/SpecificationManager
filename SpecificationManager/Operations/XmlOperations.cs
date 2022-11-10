@@ -46,6 +46,7 @@ namespace SpecificationManager.Operations
                     }
                     result = true;
                 }
+                filePath = default;
             }
             catch (Exception)
             {
@@ -57,7 +58,10 @@ namespace SpecificationManager.Operations
         public bool SaveXML(Specification specification, bool saveAsMode)
         {
             result = default;
+            if (saveAsMode || filePath == null)
+            {
                 filePath = FileDialogService.SaveFile();
+            }
             try
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(Specification));
@@ -77,7 +81,15 @@ namespace SpecificationManager.Operations
 
         public Specification OpenXML()
         {
-            filePath = FileDialogService.OpenFile("xml", false)[0];
+            try
+            {
+                filePath = FileDialogService.OpenFile("xml", false)[0];
+            }
+            catch (Exception)
+            {
+                var e = new Exception("Файл не був обраний!");
+                throw e;
+            }
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Specification));
             Specification specification = new Specification();
             using (FileStream fs = new FileStream(filePath, FileMode.Open))

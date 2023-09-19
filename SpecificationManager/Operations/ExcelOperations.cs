@@ -19,6 +19,8 @@ namespace SpecificationManager.Operations
 {
     public class ExcelOperations
     {
+        private string[] _filter = { "SP", "T0", "T1", "M1", "M5" };
+
         string code;
         string currentId;
         int col;
@@ -62,34 +64,9 @@ namespace SpecificationManager.Operations
                             // fill specification model object from exel specification
                             while (xlRange.Cells[row, col] != null && xlRange.Cells[row, col].Value2 != null)
                             {
-                                if (xlRange.Cells[row, col + 4].Value2.ToString().Contains("SP") &&
-                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T1") &&
-                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T2") &&
-                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M1 ") &&
-                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M5 "))
-                                {
-                                    code = xlRange.Cells[row, col + 4].Value2.ToString();
-                                    currentId = code.Substring(code.IndexOf("SP"), 3);
+                                var cellContent = xlRange.Cells[row, col + 4].Value2.ToString();
 
-                                    var newProduct = new Product(
-                                            xlRange.Cells[row, col].Value2.ToString(),
-                                            xlRange.Cells[row, col + 1].Value2.ToString(),
-                                            xlRange.Cells[row, col + 2].Value2.ToString(),
-                                            xlRange.Cells[row, col + 3].Value2.ToString(),
-                                            xlRange.Cells[row, col + 4].Value2.ToString());
-
-                                    var existProduct = specification.FindProduct(currentId, newProduct.Article);
-                                    if (existProduct != null)
-                                    {
-                                        specification.SumProducts(existProduct, newProduct);
-                                    }
-                                    else
-                                    {
-                                        specification.Suppliers
-                                        .Single(sid => sid.SupplierId == currentId)
-                                        .Products.Add(newProduct);
-                                    }
-                                }
+                                AddProduct(cellContent, xlRange);
                                 row++;
                             }
                             specification.Article = xlRange.Cells[6, 2].Value2.ToString();
@@ -115,6 +92,44 @@ namespace SpecificationManager.Operations
                 Marshal.ReleaseComObject(xlApp);
             }
             return specification;
+
+            void AddProduct(string cellContent, Range xlRange)
+            {
+                if (!cellContent.Contains(_filter[0])) return;
+
+                for (int i = 1; i < _filter.Length; i++)
+                    if (cellContent.Contains(_filter[i])) return;
+
+                //if (cellContent.Contains("SP") &&
+                //    !cellContent.Contains("T1") &&
+                //    !cellContent.Contains("T2") &&
+                //    !cellContent.Contains("M1 ") &&
+                //    !cellContent.Contains("M5 "))
+
+                {
+                    code = xlRange.Cells[row, col + 4].Value2.ToString();
+                    currentId = code.Substring(code.IndexOf(_filter[0]), 4).Trim();
+
+                    var newProduct = new Product(
+                            xlRange.Cells[row, col].Value2.ToString(),
+                            xlRange.Cells[row, col + 1].Value2.ToString(),
+                            xlRange.Cells[row, col + 2].Value2.ToString(),
+                            xlRange.Cells[row, col + 3].Value2.ToString(),
+                            xlRange.Cells[row, col + 4].Value2.ToString());
+
+                    var existProduct = specification.FindProduct(currentId, newProduct.Article);
+                    if (existProduct != null)
+                    {
+                        specification.SumProducts(existProduct, newProduct);
+                    }
+                    else
+                    {
+                        specification.Suppliers
+                        .Single(sid => sid.SupplierId == currentId)
+                        .Products.Add(newProduct);
+                    }
+                }
+            }
         }
 
         internal bool ExportSeparated(Specification specification, List<string> chekedSuppliers)

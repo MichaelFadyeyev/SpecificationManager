@@ -17,7 +17,9 @@ namespace SpecificationManager.Models.Settings
                 {"SP5", "ADS"}, // SP5
                 {"SP6", "VDM"}, // SP6
                 {"SP7", "KRONAS"}, // SP7
-                {"SP8", "OTHER"} // SP8
+                {"SP8", "OTHER"}, // SP8
+                {"SP9", "OTHER"}, // SP9
+                {"SP10", "OTHER"} // SP10
         };
     }
 }

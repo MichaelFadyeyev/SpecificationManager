@@ -34,3 +34,10 @@
 + окремі поля для встановлення кількості стовбців в таблицях, що експортуються
 + функція швидкого збереження без запиту імені файлу
 + закриття специфікації
+
+23-09-19
+optimise row filter in ExcelOperation; add method AddProduct
+read code independently of number part length (SP1, SP10, SP100 etc.)
+!!! error (000001) on adding product if supplier code not in SuppliersSetting.Naming
+temporary add suppliers with codes SP9, SP10 with Name="OTHER"
+- fix error (000001)

@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>D:\publish\221014-0943\</PublishUrl>
+    <PublishUrl>D:\publish\2309-1011\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -27,6 +27,7 @@
     <ProductName>SpecificationManager</ProductName>
     <PublisherName>Михайло</PublisherName>
     <SuiteName>Фадєєв</SuiteName>
+    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -59,7 +60,7 @@
     <ManifestKeyFile>SpecSplitter_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>

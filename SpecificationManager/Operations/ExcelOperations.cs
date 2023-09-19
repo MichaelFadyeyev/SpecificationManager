@@ -63,8 +63,8 @@ namespace SpecificationManager.Operations
                             while (xlRange.Cells[row, col] != null && xlRange.Cells[row, col].Value2 != null)
                             {
                                 if (xlRange.Cells[row, col + 4].Value2.ToString().Contains("SP") &&
-                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T0") &&
                                     !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T1") &&
+                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T2") &&
                                     !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M1 ") &&
                                     !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M5 "))
                                 {

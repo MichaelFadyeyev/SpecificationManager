@@ -26,7 +26,7 @@ namespace SpecificationManager.Operations
         int row;
         readonly int headerHeight = WorksheetFormatter.HeaderRowHeight;
 
-        private string[] _filter = { "SP", "T0", "T1", "M1", "M5" };
+        private string[] _filter = { "SP", "T0", "T1", "M1 ", "M5 " };
 
         OperationManager om;
 

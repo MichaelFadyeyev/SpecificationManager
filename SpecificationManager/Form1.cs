@@ -449,5 +449,10 @@ namespace SpecificationManager
         {
             this.Text = $"SpecificationManager - {specification.Article}";
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

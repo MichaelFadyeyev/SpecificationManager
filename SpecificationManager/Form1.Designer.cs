@@ -42,6 +42,8 @@ namespace SpecificationManager
             this.expSingleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.addToProjectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.detailOperationsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.editRastexMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,15 +62,13 @@ namespace SpecificationManager
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.buttonsGroup = new System.Windows.Forms.GroupBox();
+            this.appendExcelButton = new System.Windows.Forms.Button();
+            this.expSingleButton = new System.Windows.Forms.Button();
             this.articleSaveBtn = new System.Windows.Forms.Button();
             this.articleEditBtn = new System.Windows.Forms.Button();
             this.suppliersList = new System.Windows.Forms.CheckedListBox();
-            this.appendExcelButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.expSingleButton = new System.Windows.Forms.Button();
-            this.buttonsGroup = new System.Windows.Forms.GroupBox();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.closeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -195,6 +195,20 @@ namespace SpecificationManager
             this.addToProjectMenuItem.Text = "Додати фурнітуру у файл ViyarPRO";
             this.addToProjectMenuItem.ToolTipText = "Додати фурнітуру у файл ViyarPRO";
             this.addToProjectMenuItem.Click += new System.EventHandler(this.addToProjectMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(351, 6);
+            // 
+            // closeMenuItem
+            // 
+            this.closeMenuItem.Name = "closeMenuItem";
+            this.closeMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.closeMenuItem.Size = new System.Drawing.Size(354, 22);
+            this.closeMenuItem.Text = "Закрити Специфікацію";
+            this.closeMenuItem.ToolTipText = "Закрити Специфікацію";
+            this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
             // toolsMenu
             // 
@@ -398,6 +412,42 @@ namespace SpecificationManager
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             // 
+            // buttonsGroup
+            // 
+            this.buttonsGroup.Controls.Add(this.impExcelButton);
+            this.buttonsGroup.Controls.Add(this.appendExcelButton);
+            this.buttonsGroup.Controls.Add(this.expSeparatedButton);
+            this.buttonsGroup.Controls.Add(this.expSingleButton);
+            this.buttonsGroup.Controls.Add(this.addToProjectButton);
+            this.buttonsGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonsGroup.Location = new System.Drawing.Point(3, 326);
+            this.buttonsGroup.Name = "buttonsGroup";
+            this.buttonsGroup.Size = new System.Drawing.Size(254, 336);
+            this.buttonsGroup.TabIndex = 102;
+            this.buttonsGroup.TabStop = false;
+            // 
+            // appendExcelButton
+            // 
+            this.appendExcelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.appendExcelButton.Location = new System.Drawing.Point(3, 201);
+            this.appendExcelButton.Name = "appendExcelButton";
+            this.appendExcelButton.Size = new System.Drawing.Size(248, 33);
+            this.appendExcelButton.TabIndex = 8;
+            this.appendExcelButton.Text = "Додати загальну специфікацію";
+            this.appendExcelButton.UseVisualStyleBackColor = true;
+            this.appendExcelButton.Click += new System.EventHandler(this.appendExcelButton_Click);
+            // 
+            // expSingleButton
+            // 
+            this.expSingleButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.expSingleButton.Location = new System.Drawing.Point(3, 267);
+            this.expSingleButton.Name = "expSingleButton";
+            this.expSingleButton.Size = new System.Drawing.Size(248, 33);
+            this.expSingleButton.TabIndex = 6;
+            this.expSingleButton.Text = "Експортувати загальну специфікацію";
+            this.expSingleButton.UseVisualStyleBackColor = true;
+            this.expSingleButton.Click += new System.EventHandler(this.expSingleMenuItem_Click);
+            // 
             // articleSaveBtn
             // 
             this.articleSaveBtn.Enabled = false;
@@ -429,17 +479,6 @@ namespace SpecificationManager
             this.suppliersList.TabIndex = 3;
             this.suppliersList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.suppliersList_ItemCheck);
             // 
-            // appendExcelButton
-            // 
-            this.appendExcelButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.appendExcelButton.Location = new System.Drawing.Point(3, 201);
-            this.appendExcelButton.Name = "appendExcelButton";
-            this.appendExcelButton.Size = new System.Drawing.Size(248, 33);
-            this.appendExcelButton.TabIndex = 8;
-            this.appendExcelButton.Text = "Додати загальну специфікацію";
-            this.appendExcelButton.UseVisualStyleBackColor = true;
-            this.appendExcelButton.Click += new System.EventHandler(this.appendExcelButton_Click);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -448,45 +487,6 @@ namespace SpecificationManager
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 6;
             this.label3.Text = "Виробники:";
-            // 
-            // expSingleButton
-            // 
-            this.expSingleButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.expSingleButton.Location = new System.Drawing.Point(3, 267);
-            this.expSingleButton.Name = "expSingleButton";
-            this.expSingleButton.Size = new System.Drawing.Size(248, 33);
-            this.expSingleButton.TabIndex = 6;
-            this.expSingleButton.Text = "Експортувати загальну специфікацію";
-            this.expSingleButton.UseVisualStyleBackColor = true;
-            this.expSingleButton.Click += new System.EventHandler(this.expSingleMenuItem_Click);
-            // 
-            // buttonsGroup
-            // 
-            this.buttonsGroup.Controls.Add(this.impExcelButton);
-            this.buttonsGroup.Controls.Add(this.appendExcelButton);
-            this.buttonsGroup.Controls.Add(this.expSeparatedButton);
-            this.buttonsGroup.Controls.Add(this.expSingleButton);
-            this.buttonsGroup.Controls.Add(this.addToProjectButton);
-            this.buttonsGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonsGroup.Location = new System.Drawing.Point(3, 326);
-            this.buttonsGroup.Name = "buttonsGroup";
-            this.buttonsGroup.Size = new System.Drawing.Size(254, 336);
-            this.buttonsGroup.TabIndex = 102;
-            this.buttonsGroup.TabStop = false;
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(351, 6);
-            // 
-            // closeMenuItem
-            // 
-            this.closeMenuItem.Name = "closeMenuItem";
-            this.closeMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.closeMenuItem.Size = new System.Drawing.Size(354, 22);
-            this.closeMenuItem.Text = "Закрити Специфікацію";
-            this.closeMenuItem.ToolTipText = "Закрити Специфікацію";
-            this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
             // 
             // Form1
             // 
@@ -502,6 +502,7 @@ namespace SpecificationManager
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SpecificationManager";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();

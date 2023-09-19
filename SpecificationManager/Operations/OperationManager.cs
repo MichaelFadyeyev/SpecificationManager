@@ -12,13 +12,21 @@ namespace SpecificationManager.Operations
 
     public class OperationManager
     {
-        Stopwatch stopwatch = new Stopwatch();
-        ExcelOperations excelOperations = new ExcelOperations();
-        XmlOperations xmlOperations = new XmlOperations();
+        readonly Stopwatch stopwatch = new Stopwatch();
+        readonly ExcelOperations excelOperations;
+        readonly XmlOperations xmlOperations;
         public string TimeSpan { get; set; }
         Specification specification;
-        List<ProductType> existItems = new List<ProductType>();
-        List<ProductType> replaceItems = new List<ProductType>();
+        readonly List<ProductType> existItems = new List<ProductType>();
+        List<ProductType> replaceItems;
+        public string Article { get => specification.Article; }
+        public string FilePath;
+
+        public OperationManager()
+        {
+            xmlOperations = new XmlOperations(this);
+            excelOperations = new ExcelOperations(this);
+        }
 
         public void GetLibrary()
         {
@@ -103,21 +111,13 @@ namespace SpecificationManager.Operations
 
         public Specification AppendExcel()
         {
-            if (specification != null)
-            {
-                stopwatch.Start();
-                var result = excelOperations.Import(specification);
-                stopwatch.Stop();
-                TimeSpan = stopwatch.ElapsedMilliseconds.ToString();
-                stopwatch.Reset();
+            stopwatch.Start();
+            var result = excelOperations.Import(specification);
+            stopwatch.Stop();
+            TimeSpan = stopwatch.ElapsedMilliseconds.ToString();
+            stopwatch.Reset();
 
-                return result;
-            }
-            else
-            {
-                throw new Exception("Відсутня основна специфікація.\nПеред об'єднанням імпортуйте основну специфікацію.");
-            }
-
+            return result;
         }
 
         public List<ProductType> GetReplaceItems()
@@ -127,58 +127,56 @@ namespace SpecificationManager.Operations
 
         public List<ProductType> GetExistItems(string item_type)
         {
-            existItems.Clear();
-            if (specification != null)
-            {
-                foreach (var supplier in specification.Suppliers)
-                {
-                    foreach (var detail in supplier.Products)
-                    {
+            if (specification == null) return null;
 
-                        if (item_type == "rastex")
+            existItems.Clear();
+
+            foreach (var supplier in specification.Suppliers)
+            {
+                foreach (var detail in supplier.Products)
+                {
+                    if (item_type == "rastex")
+                    {
+                        switch (detail.Article)
                         {
-                            switch (detail.Article)
-                            {
-                                case "51760":
-                                case "59042":
-                                case "61281":
-                                case "83199":
-                                    AddItem(detail);
-                                    break;
-                            }
+                            case "51760":
+                            case "59042":
+                            case "61281":
+                            case "83199":
+                                AddItem(detail);
+                                break;
                         }
-                        else if (item_type == "rafix")
+                    }
+                    else if (item_type == "rafix")
+                    {
+                        switch (detail.Article)
                         {
-                            switch (detail.Article)
-                            {
-                                case "263.10.405":
-                                case "263.10.205":
-                                case "263.10.305":
-                                case "263.10.705":
-                                case "13015":
-                                case "84629":
-                                case "82759":
-                                case "84628":
-                                    AddItem(detail);
-                                    break;
-                            }
+                            case "263.10.405":
+                            case "263.10.205":
+                            case "263.10.305":
+                            case "263.10.705":
+                            case "13015":
+                            case "84629":
+                            case "82759":
+                            case "84628":
+                                AddItem(detail);
+                                break;
                         }
-                        else
+                    }
+                    else
+                    {
+                        switch (detail.Article)
                         {
-                            switch (detail.Article)
-                            {
-                                case "60837":
-                                case "52559":
-                                case "52560":
-                                    AddItem(detail);
-                                    break;
-                            }
+                            case "60837":
+                            case "52559":
+                            case "52560":
+                                AddItem(detail);
+                                break;
                         }
                     }
                 }
-                return existItems;
             }
-            return null;
+            return existItems;
 
             void AddItem(Product detail)
             {

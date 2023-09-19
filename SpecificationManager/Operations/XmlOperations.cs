@@ -9,16 +9,21 @@ using SpecificationManager.Services;
 using SpecificationManager.Models;
 using SpecificationManager.Configuration;
 
-
 namespace SpecificationManager.Operations
 {
     public class XmlOperations
     {
-        string filePath;
         bool result;
 
         XDocument doc;
         XElement root;
+
+        OperationManager om;
+
+        public XmlOperations(OperationManager om)
+        {
+            this.om = om;
+        }
 
         public bool LoadProductsLibrary(out List<ProductType> operateItems)
         {
@@ -26,10 +31,10 @@ namespace SpecificationManager.Operations
             result = default;
             try
             {
-                filePath = Config.ReplaceProdListCurrentPath;
-                if (File.Exists(filePath))
+                om.FilePath = Config.ReplaceProdListCurrentPath;
+                if (File.Exists(om.FilePath))
                 {
-                    doc = XDocument.Load(filePath);
+                    doc = XDocument.Load(om.FilePath);
                     root = doc.Element("root");
                     foreach (var products in root.Elements())
                     {
@@ -46,7 +51,7 @@ namespace SpecificationManager.Operations
                     }
                     result = true;
                 }
-                filePath = default;
+                om.FilePath = default;
             }
             catch (Exception)
             {
@@ -58,14 +63,14 @@ namespace SpecificationManager.Operations
         public bool SaveXML(Specification specification, bool saveAsMode)
         {
             result = default;
-            if (saveAsMode || filePath == null)
+            if (saveAsMode || om.FilePath == null)
             {
-                filePath = FileDialogService.SaveFile();
+                om.FilePath = FileDialogService.SaveFile(om.Article);
             }
             try
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(Specification));
-                using (FileStream fs = new FileStream(filePath, FileMode.Create
+                using (FileStream fs = new FileStream(om.FilePath, FileMode.Create
                     ))
                 {
                     xmlSerializer.Serialize(fs, specification);
@@ -83,16 +88,16 @@ namespace SpecificationManager.Operations
         {
             try
             {
-                filePath = FileDialogService.OpenFile("xml", false)[0];
+                om.FilePath = FileDialogService.OpenFile("xml", false)[0];
             }
             catch (Exception)
             {
-                var e = new Exception("Файл не був обраний!");
-                throw e;
+                throw new Exception("Файл не був обраний!");
             }
+
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Specification));
             Specification specification = new Specification();
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(om.FilePath, FileMode.Open))
             {
                 specification = xmlSerializer.Deserialize(fs) as Specification;
             }
@@ -126,15 +131,15 @@ namespace SpecificationManager.Operations
                     Directory.CreateDirectory(Path.GetDirectoryName(workingPath));
                 }
 
-                filePath = workingPath;
-                using (_ = File.Create(filePath)) { };
+                om.FilePath = workingPath;
+                using (_ = File.Create(om.FilePath)) { };
 
                 /* POSSIBLE VARIANT
-                //var file = File.Create(filePath); 
+                //var file = File.Create(om.FilePath); 
                 //file.Close();
                 */
 
-                if (File.Exists(filePath))
+                if (File.Exists(om.FilePath))
                 {
                     doc = new XDocument(
                     new XElement("root",
@@ -206,7 +211,7 @@ namespace SpecificationManager.Operations
                         new XAttribute("code", "M3 SP1")))
                     ));
 
-                    doc.Save(filePath);
+                    doc.Save(om.FilePath);
                     result = true;
                 }
             }
@@ -222,10 +227,10 @@ namespace SpecificationManager.Operations
             result = default;
             try
             {
-                filePath = FileDialogService.OpenFile("project", false)[0];
+                om.FilePath = FileDialogService.OpenFile("project", false)[0];
 
                 Supplier viyar = specification.Suppliers.Where(s => s.Name == "Viyar").First();
-                doc = XDocument.Load(filePath);
+                doc = XDocument.Load(om.FilePath);
                 root = doc.Element("project");
 
                 if ((root.Element("viyar").Elements()
@@ -247,10 +252,10 @@ namespace SpecificationManager.Operations
                     new XAttribute("amount", detail.Quantity)));
                 }
                 string fileNameUpdated =
-                    Path.GetDirectoryName(filePath) + @"\" +
-                    Path.GetFileNameWithoutExtension(filePath) +
+                    Path.GetDirectoryName(om.FilePath) + @"\" +
+                    Path.GetFileNameWithoutExtension(om.FilePath) +
                     "_updated" +
-                    Path.GetExtension(filePath);
+                    Path.GetExtension(om.FilePath);
 
                 doc.Save(fileNameUpdated);
 

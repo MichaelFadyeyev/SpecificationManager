@@ -12,10 +12,11 @@ namespace SpecificationManager
 {
     public partial class Form1 : Form
     {
-        OperationManager om = new OperationManager();
+        readonly OperationManager om = new OperationManager();
         Specification specification;
-        bool specificationIsLoaded;
+        bool specificationIsChanged;
         bool specificationIsSaved;
+        bool specificationIsLoaded;
         List<string> checkedSuppliers;
 
         public Form1()
@@ -71,18 +72,15 @@ namespace SpecificationManager
         }
         void editRastexMenu_Click(object sender, EventArgs e)
         {
-            //if (specification != null)
-                EditItems(sender as ToolStripItem);
+            EditItems(sender as ToolStripItem);
         }
         void editRafixMenu_Click(object sender, EventArgs e)
         {
-            //if (specification != null)
-                EditItems(sender as ToolStripItem);
+            EditItems(sender as ToolStripItem);
         }
         void editScrewsMenu_Click(object sender, EventArgs e)
         {
-            //if (specification != null)
-                EditItems(sender as ToolStripItem);
+            EditItems(sender as ToolStripItem);
         }
         void settingsBazisMenuItem_Click(object sender, EventArgs e)
         {
@@ -106,24 +104,30 @@ namespace SpecificationManager
         }
         private void closeMenuItem_Click(object sender, EventArgs e)
         {
-            if (!specificationIsLoaded)
+            if (dataGrid.Rows.Count == 0)
             {
                 SpecificationNotLoadedMessege();
                 return;
             }
-
-            if (!specificationIsSaved)
+            if (MessageBox.Show("Закрити специфікацію?", "Увага!",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                if (MessageBox.Show("Зберегти зміни до специфікації?", "Увага!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning) == DialogResult.OK)
-                    Save(specification, false);
-            }
-            dataGrid.Rows.Clear();
-            suppliersList.Items.Clear();
-            articleField.Clear();
-            articleEditBtn.Enabled = false;
 
-            specification = null;
+                if (!specificationIsSaved && specificationIsChanged)
+                {
+                    if (MessageBox.Show("Зберегти зміни до специфікації?", "Увага!",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        Save(specification, false);
+                }
+
+                dataGrid.Rows.Clear();
+                suppliersList.Items.Clear();
+                articleField.Clear();
+                articleEditBtn.Enabled = false;
+
+                specification = null;
+            }
+
         }
         #endregion
 
@@ -144,25 +148,24 @@ namespace SpecificationManager
         {
             AppendExcel();
         }
-        private void articleEditBtn_Click(object sender, EventArgs e)
+        void articleEditBtn_Click(object sender, EventArgs e)
         {
-            if (specificationIsLoaded)
+            if (dataGrid.Rows.Count == 0)
             {
-                articleField.ReadOnly = false;
-
-                menuStrip.Enabled = false;
-                dataGrid.Enabled = false;
-                suppliersList.Enabled = false;
-                buttonsGroup.Enabled = false;
-
-                articleSaveBtn.Enabled = true;
-                articleEditBtn.Enabled = false;
+                SpecificationNotLoadedMessege();
+                return;
             }
-            else
-                MessageBox.Show("Відсутня основна специфікація!", "Помилка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            articleField.ReadOnly = false;
+
+            menuStrip.Enabled = false;
+            dataGrid.Enabled = false;
+            suppliersList.Enabled = false;
+            buttonsGroup.Enabled = false;
+
+            articleSaveBtn.Enabled = true;
+            articleEditBtn.Enabled = false;
         }
-        private void articleSaveBtn_Click(object sender, EventArgs e)
+        void articleSaveBtn_Click(object sender, EventArgs e)
         {
             specification.Article = articleField.Text;
             articleField.ReadOnly = true;
@@ -175,7 +178,8 @@ namespace SpecificationManager
             articleSaveBtn.Enabled = false;
             articleEditBtn.Enabled = true;
 
-            specificationIsSaved = false;
+            specificationIsChanged = true;
+            UpdateHeader();
         }
         #endregion
 
@@ -194,6 +198,7 @@ namespace SpecificationManager
                 specification = result;
                 dataGrid.Rows.Clear();
                 FillDataGrid();
+                UpdateHeader();
 
             }
             catch (Exception exeption)
@@ -210,9 +215,11 @@ namespace SpecificationManager
             }
             try
             {
+                if (specificationIsSaved == false) om.FilePath = null;
                 if (om.Save(specification, saveAsMode))
                 {
                     specificationIsSaved = true;
+                    specificationIsChanged = false;
                     MessageBox.Show("Файл специфікацій успішно збережено", "Інформація",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -234,7 +241,8 @@ namespace SpecificationManager
                 timeSpanFild.Clear();
                 specification = om.ImportExcel();
                 FillDataGrid();
-
+                specificationIsChanged = true;
+                UpdateHeader();
             }
             catch (Exception exeption)
             {
@@ -268,8 +276,7 @@ namespace SpecificationManager
         {
             if (dataGrid.Rows.Count == 0)
             {
-                MessageBox.Show("Відсутня основна специфікація.\nПеред експортом імпортуйте основну специфікацію.", "Увага!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                SpecificationNotLoadedMessege();
                 return;
             }
             try
@@ -289,11 +296,19 @@ namespace SpecificationManager
         }
         void AppendExcel()
         {
+            if (dataGrid.Rows.Count == 0)
+            {
+                SpecificationNotLoadedMessege();
+                return;
+            }
             try
             {
+                string article = specification.Article;
                 specification = om.AppendExcel();
+                specification.Article = article;
                 dataGrid.Rows.Clear();
                 FillDataGrid();
+                specificationIsChanged = true;
                 timeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
             }
             catch (Exception exeption)
@@ -373,6 +388,7 @@ namespace SpecificationManager
             articleField.Text = specification.Article;
             specificationIsLoaded = true;
             specificationIsSaved = false;
+
             timeSpanFild.Text = "Time Span: " + om.TimeSpan + " ms";
         }
         void FilterDataGrid()
@@ -401,20 +417,19 @@ namespace SpecificationManager
         }
         void suppliersList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (specificationIsLoaded)
-            {
-                dataGrid.Rows.Clear();
+            if (!specificationIsLoaded) return;
 
-                string itemText = (sender as CheckedListBox).SelectedItem.ToString();
-                string name = itemText.Substring(0, itemText.IndexOf("\t"));
+            dataGrid.Rows.Clear();
 
-                if (e.NewValue == CheckState.Unchecked)
-                    checkedSuppliers.Remove(name);
-                else if (e.NewValue == CheckState.Checked)
-                    checkedSuppliers.Add(name);
+            string itemText = (sender as CheckedListBox).SelectedItem.ToString();
+            string name = itemText.Substring(0, itemText.IndexOf("\t"));
 
-                FilterDataGrid();
-            }
+            if (e.NewValue == CheckState.Unchecked)
+                checkedSuppliers.Remove(name);
+            else if (e.NewValue == CheckState.Checked)
+                checkedSuppliers.Add(name);
+
+            FilterDataGrid();
         }
         #endregion
 
@@ -423,12 +438,16 @@ namespace SpecificationManager
         {
             MessageBox.Show(exeption.Message, "Увага!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
-
         static void SpecificationNotLoadedMessege()
         {
-            MessageBox.Show("Відсутня основна специфікація.\nДодайте основну специфікацію.", "Увага!",
+            MessageBox.Show("Специфікація відсутня.\nВідкрийте або імпортуйте специфікацію.", "Увага!",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         #endregion
+
+        void UpdateHeader()
+        {
+            this.Text = $"SpecificationManager - {specification.Article}";
+        }
     }
 }

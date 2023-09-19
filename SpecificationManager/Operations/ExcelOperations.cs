@@ -19,20 +19,29 @@ namespace SpecificationManager.Operations
 {
     public class ExcelOperations
     {
-        string filePath;
         string code;
         string currentId;
         int col;
         int row;
         readonly int headerHeight = WorksheetFormatter.HeaderRowHeight;
+
+        OperationManager om;
+
+        public ExcelOperations(OperationManager om)
+        {
+            this.om = om;
+        }
         internal Specification Import(Specification s)
         {
             Specification specification = s ?? InitSpecification();
             Excel.Application xlApp = new Excel.Application();
+
+            string[] files = FileDialogService.OpenFile("xls", true);
+            if (files == null) throw new Exception("Файл не був обраний!");
+
             try
             {
-                string[] files = FileDialogService.OpenFile("xls", true);
-                filePath = files[0];
+                om.FilePath = files[0];
 
                 if (files != null)
                 {
@@ -54,8 +63,8 @@ namespace SpecificationManager.Operations
                             while (xlRange.Cells[row, col] != null && xlRange.Cells[row, col].Value2 != null)
                             {
                                 if (xlRange.Cells[row, col + 4].Value2.ToString().Contains("SP") &&
+                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T0") &&
                                     !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T1") &&
-                                    !xlRange.Cells[row, col + 4].Value2.ToString().Contains("T2") &&
                                     !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M1 ") &&
                                     !xlRange.Cells[row, col + 4].Value2.ToString().Contains("M5 "))
                                 {
@@ -107,6 +116,7 @@ namespace SpecificationManager.Operations
             }
             return specification;
         }
+
         internal bool ExportSeparated(Specification specification, List<string> chekedSuppliers)
         {
             //write separate specifications to *.xlsx
@@ -162,7 +172,7 @@ namespace SpecificationManager.Operations
                         try
                         {
                             xlWorkbook.SaveAs(
-                                Path.GetDirectoryName(filePath) + @"\" +
+                                Path.GetDirectoryName(om.FilePath) + @"\" +
                                 specification.Article + "-" +
                                 supplier.Name +
                                 ".xlsx");
@@ -248,7 +258,7 @@ namespace SpecificationManager.Operations
                 try
                 {
                     xlWorkbook.SaveAs(
-                        Path.GetDirectoryName(filePath) + @"\" +
+                        Path.GetDirectoryName(om.FilePath) + @"\" +
                         specification.Article + "-" +
                         "ЗВЕДЕНА" +
                         ".xlsx");

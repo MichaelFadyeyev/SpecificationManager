@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
-using SpecificationManager.Configuration;
+﻿using System.Windows.Forms;
 
 namespace SpecificationManager.Services
 {
@@ -37,10 +29,11 @@ namespace SpecificationManager.Services
             return default;
         }
 
-        public static string SaveFile()
+        public static string SaveFile(string fileName)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Файли XML (*.xml)|*.xml";
+            saveFileDialog.FileName = fileName;
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 return saveFileDialog.FileName;
